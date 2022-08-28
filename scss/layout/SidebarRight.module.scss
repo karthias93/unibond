@@ -1,0 +1,72 @@
+@use "../utils/" as u;
+@use "../globals/colors" as colors;
+
+.sidebar {
+    $padding-y: u.rem(42);
+    $padding-x: u.rem(40);
+
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: u.rem(300);
+    height: 100vh;
+    background-color: var(--right-sidebar-bg);
+    z-index: 400;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    text-align: right;
+    transform: translateX(calc(u.rem(300)));
+
+    &.open {
+        transform: translateX(0);
+    }
+
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        padding: $padding-y $padding-x;
+
+        .closeBtn {
+            font-size: 1.8rem;
+            display: flex;
+            cursor: pointer;
+        }
+    }
+
+    main {
+        flex: 1;
+        a {
+            display: block;
+            padding: u.rem(12) $padding-x;
+            position: relative;
+
+            .sidebarlinkIcon {
+                position: absolute !important;
+                top: 50% !important;
+                left: $padding-x !important;
+                transform: translateY(-50%) !important;
+            }
+        }
+
+        a.active {
+            background-color: colors.$yellow;
+            box-shadow: 0px 4px 33px rgba(0, 0, 0, 0.25);
+        }
+
+        a.logoutBtn {
+            margin-top: 4rem;
+        }
+
+        & > :not(:last-child) {
+            margin-bottom: 0.8rem;
+        }
+    }
+
+    .footer {
+        padding: $padding-y $padding-x;
+    }
+}

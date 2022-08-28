@@ -1,0 +1,50 @@
+@use "../utils" as u;
+
+:root {
+  --r20px: 1.3888888888888888vw;
+  --r30px: 2.0833333333333335vw;
+
+  --color-orange: #d09756;
+  --color-gray: #525252;
+  --color-yellow: #f4bb00;
+  --color-blue: #0a66c2;
+  --color-light-gray: rgba(0, 0, 0, 0.5);
+  --color-bg-white: white;
+  --color-sidebar: #f6f5f9;
+  --color-black: black;
+  --color-white: white;
+  --color-icon-button: white;
+  --color-users-scrollbar-bg: #d9d9d9;
+  --progress-card-bg: white;
+  --right-sidebar-bg: white;
+  --icons-sidebar-text-color: #525252;
+  --unchange-white: white;
+  --unchange-gray: #525252;
+  --user-cards-dissolver: linear-gradient(
+    180deg,
+    rgba(246, 245, 249, 0) 0%,
+    #f6f5f9 48.23%
+  );
+}
+
+[data-theme="dark"] {
+  --right-sidebar-bg: #f4bb00;
+  --color-bg-white: rgb(31, 31, 31);
+  --color-black: white;
+  --progress-card-bg: rgb(63, 63, 63);
+  --color-gray: #a5a5a5;
+  --color-sidebar: rgb(26, 26, 26);
+  --color-light-gray: rgba(255, 255, 255, 0.9);
+  --user-cards-dissolver: linear-gradient(
+    180deg,
+    rgba(246, 245, 249, 0) 0%,
+    rgb(26, 26, 26) 48.23%
+  );
+}
+
+@include u.breakpoint(large) {
+  :root {
+    --r20px: #{u.rem(14)};
+    --r30px: #{u.rem(20)};
+  }
+}
