@@ -10,7 +10,7 @@ const nextConfig = {
         apiUrl:
             process.env.NODE_ENV === "development"
                 ? "http://localhost:3000" // development api
-                : "https://uni-bond.vercel.app", // production api
+                : "https://unibond-dashboard.vercel.app", // production api
     },
     serverRuntimeConfig: {
         secret: "THIS IS USED TO SIGN AND VERIFY JWT TOKENS, IT CAN BE ANY STRING",
@@ -19,7 +19,7 @@ const nextConfig = {
         apiUrl:
             process.env.NODE_ENV === "development"
                 ? "http://localhost:3000" // development api
-                : "https://uni-bond.herokuapp.com", // production api
+                : "https://unibond-dashboard.herokuapp.com/", // production api
     },
 };
 
