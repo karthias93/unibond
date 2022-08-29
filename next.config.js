@@ -4,8 +4,8 @@ const nextConfig = {
     swcMinify: true,
     env: {
         MONGODB_URI:
-        //    "mongodb://ibad12:callofduty123456.@ac-bx1hyft-shard-00-00.3l9etec.mongodb.net:27017,ac-bx1hyft-shard-00-01.3l9etec.mongodb.net:27017,ac-bx1hyft-shard-00-02.3l9etec.mongodb.net:27017/?ssl=true&replicaSet=atlas-3iqehh-shard-0&authSource=admin&retryWrites=true&w=majority",
-        "mongodb://localhost:27017/?readPreference=primary&directConnection=true&ssl=false",
+        "mongodb://karthick:PFKFUQpFi6mTpSnC@ac-bx1hyft-shard-00-00.3l9etec.mongodb.net:27017,ac-bx1hyft-shard-00-01.3l9etec.mongodb.net:27017,ac-bx1hyft-shard-00-02.3l9etec.mongodb.net:27017/?ssl=true&replicaSet=atlas-3iqehh-shard-0&authSource=admin&retryWrites=true&w=majority",
+        //"mongodb://localhost:27017/?readPreference=primary&directConnection=true&ssl=false",
         DB_NAME: "UniBond",
         apiUrl:
             process.env.NODE_ENV === "development"
