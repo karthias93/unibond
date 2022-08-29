@@ -1,6 +1,6 @@
 import { useEffect, useCallback, useState } from "react";
 import ChatLayout from "layouts/ChatLayout";
-import Chat from "../layouts/Chat";
+import Chat from "../../layouts/Chat";
 import { useDispatch, useSelector } from "react-redux";
 import { usersState } from "reduxState/slices/usersSlice";
 import { auth as authState } from "reduxState/slices/authSlice";

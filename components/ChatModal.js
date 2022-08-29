@@ -121,7 +121,7 @@ function ChatModal() {
                 <div
                     onClick={() => {
                         dispatch(toggleChatScreenState(false));
-                        router.push("/chat");
+                        router.push(`/chat/${reciever.id}`);
                     }}
                 >
                     <icon>

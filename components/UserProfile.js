@@ -19,15 +19,6 @@ function UserProfile({ id, email, name, skill, status }) {
     const [accountOpen, setAccountOpen] = useState(false);
     const [passwordOpen, setPasswordOpen] = useState(false);
     const [emailOpen, setEmailOpen] = useState(false);
-    const openChatDialog = () => {
-        if (auth) {
-            dispatch(chatUser({ id, email, username: name, status, skill }));
-            if (!window.location.href.includes("chat")) {
-                dispatch(toggleChatScreenState(true));
-                dispatch(toggleBlackScreenState(true));
-            }
-        }
-    };
 
     return (
         <div>

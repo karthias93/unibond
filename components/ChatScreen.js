@@ -7,6 +7,8 @@ import { IoMdSend } from "react-icons/io";
 import axios from "axios";
 import toast from "./Toast";
 import { socket } from "components/ChatModal";
+import { useRouter } from 'next/router';
+import { chatUser } from "../reduxState/slices/chatUserSlice";
 
 function ChatScreen() {
     const [message, setMessage] = useState("");
@@ -14,6 +16,10 @@ function ChatScreen() {
     const scrollRef = useRef();
     const sender = useSelector((state) => state.authState);
     const reciever = useSelector((state) => state.chatUserState);
+    const chatUsers = useSelector((state) => state.usersState);
+    const router = useRouter()
+    const { id } = router.query;
+    const dispatch = useDispatch();
 
     const headersConfig = useMemo(() => {
         return {
@@ -23,6 +29,15 @@ function ChatScreen() {
         };
     }, [sender.token]);
 
+    useEffect(()=> {
+        if (chatUsers.users.length && id) {
+            console.log(id, chatUsers.users)
+            const index = chatUsers.users.findIndex((user)=>user._id===id);
+            const { _id, email, username, status, skill } = chatUsers.users[index];
+            dispatch(chatUser({ id: _id, email, username, status, skill }));
+        }
+    }, [id, chatUsers.users, dispatch])
+
     useEffect(() => {
         setMessages([]);
         if (sender.id && reciever.id) {
@@ -31,7 +46,7 @@ function ChatScreen() {
                 .then(({ data }) => setMessages(data))
                 .catch(({ request: { responseText } }) => toast({ type: "error", message: `${JSON.parse(responseText).message}` }));
         }
-    }, [reciever, sender, sender.token, headersConfig]);
+    }, [reciever.id, sender.id, sender.token, headersConfig]);
 
     useEffect(() => {
         scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
