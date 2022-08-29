@@ -7,9 +7,11 @@ import { auth as authState } from "reduxState/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { socket } from "components/ChatModal";
+import { useRouter } from "next/router";
 
 export default function Profile({ isConnected }) {
     const dispatch = useDispatch();
+    const router = useRouter();
     const [members, setMembers] = useState([]);
     const [users, setUsers] = useState([]);
     const { id, isAdmin } = useSelector((state) => state.authState);
@@ -32,6 +34,12 @@ export default function Profile({ isConnected }) {
         axios.get(`${process.env.apiUrl}/api/users/`).then(({ data }) => setUsers(data));
     }, [dispatch, id]);
 
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem("currentUser"));
+        if (!user) {
+          router.push("/")
+        }
+      }, []);
     return (
         <div>
             <DashboardLayout pageName="Profile">

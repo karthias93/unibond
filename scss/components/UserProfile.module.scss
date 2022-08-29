@@ -164,6 +164,9 @@
 .input:checked+.slider:before {
     transform: translateX(26px);
 }
+.input-error {
+    border: 1px solid red;
+}
 @media (max-width: 767px) {
     .heading {
         font-size: 12px;

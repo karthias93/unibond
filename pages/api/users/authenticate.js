@@ -27,6 +27,10 @@ var authenticate = async (req, res) => {
         token,
         isAdmin: user.isAdmin,
         email: user.email,
+        phone: user.phone,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        emailNotification: user.emailNotification
     });
 };
 

@@ -6,9 +6,11 @@ import { toggleState as toggleChatScreenState } from "reduxState/slices/chatModa
 import { toggleState as toggleBlackScreenState } from "reduxState/slices/blackScreenSlice";
 import { chatUser } from "../reduxState/slices/chatUserSlice";
 import { toCapital } from "../utils/helpers/toCapital";
+import { useRouter } from "next/router";
 
 function UserCard({ id, email, name, skill, status }) {
     const dispatch = useDispatch();
+    const router = useRouter();
     const { auth } = useSelector((state) => state.authState);
 
     const openChatDialog = () => {
@@ -17,6 +19,8 @@ function UserCard({ id, email, name, skill, status }) {
             if (!window.location.href.includes(`chat`)) {
                 dispatch(toggleChatScreenState(true));
                 dispatch(toggleBlackScreenState(true));
+            } else {
+                router.push(`/chat/${id}`);
             }
         }
     };

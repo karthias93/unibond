@@ -31,10 +31,11 @@ function ChatScreen() {
 
     useEffect(()=> {
         if (chatUsers.users.length && id) {
-            console.log(id, chatUsers.users)
             const index = chatUsers.users.findIndex((user)=>user._id===id);
-            const { _id, email, username, status, skill } = chatUsers.users[index];
-            dispatch(chatUser({ id: _id, email, username, status, skill }));
+            if (index !== -1) {
+                const { _id, email, username, status, skill } = chatUsers.users[index];
+                dispatch(chatUser({ id: _id, email, username, status, skill }));
+            }
         }
     }, [id, chatUsers.users, dispatch])
 

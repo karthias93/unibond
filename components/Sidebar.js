@@ -34,8 +34,10 @@ function Sidebar({ pageName }) {
                 else return { ...user, status: false };
             });
             setUpdatedUsers(updatesStatuses);
-            if (userIDs?.get(reciever?.id)) dispatch(chatUser({ ...reciever, status: true }));
-            else dispatch(chatUser({ ...reciever, status: false }));
+            if (reciever.id) {
+                if (userIDs?.get(reciever.id)) dispatch(chatUser({ ...reciever, status: true }));
+                else dispatch(chatUser({ ...reciever, status: false }));
+            }
         }
         setUpdatedUsers(updatesStatuses);
     }, [dispatch, reciever, updatedStatus, users]);

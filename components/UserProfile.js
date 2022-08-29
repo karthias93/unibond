@@ -1,24 +1,77 @@
-import React, {Fragment, useState} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import styles from "scss/components/UserProfile.module.scss";
 import toast from "./Toast";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleState as toggleChatScreenState } from "reduxState/slices/chatModalSlice";
-import { toggleState as toggleBlackScreenState } from "reduxState/slices/blackScreenSlice";
-import { chatUser } from "../reduxState/slices/chatUserSlice";
-import { toCapital } from "../utils/helpers/toCapital";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
+import { isMember } from "../utils/helpers/member";
+import axios from "axios";
+import { auth as authState } from "reduxState/slices/authSlice";
 
 library.add(fab);
 
-function UserProfile({ id, email, name, skill, status }) {
+const AccountSettingsSchema = Yup.object().shape({
+    firstName: Yup.string(),
+    lastName: Yup.string(),
+    email: Yup.string().email().required("Email is required"),
+    username: Yup.string().required("Username is required"),
+    phone: Yup.string()
+});
+
+const changePasswordSchema = Yup.object({
+    oldPassword: Yup.string().required('Password is required'),
+    confirmPassword: Yup.string()
+       .oneOf([Yup.ref('oldPassword'), null], 'Passwords must match'),
+    newPassword: Yup.string().required('New password is required')
+  });
+
+function UserProfile() {
     const dispatch = useDispatch();
-    const { auth } = useSelector((state) => state.authState);
     const [accountOpen, setAccountOpen] = useState(false);
     const [passwordOpen, setPasswordOpen] = useState(false);
     const [emailOpen, setEmailOpen] = useState(false);
+    const [emailNotification, setEmailNotification] = useState(false);
+    const user = useSelector((state)=> state.authState);
+
+    useEffect(()=>{
+        if(user) setEmailNotification(user.emailNotification);
+    }, [user])
+    const updateUser = (values) => {
+        axios
+            .patch(`/api/users`, {
+                ...values,
+                id: user.id
+            })
+            .then((res) => {
+                dispatch(authState({
+                    ...user,
+                    ...res.data
+                }));
+                localStorage.setItem("currentUser", JSON.stringify({
+                    ...user,
+                    ...res.data
+                }));
+                toast({ type: "success", message: `updated successfully` });
+            })
+            .catch(({ request: { responseText } }) => toast({ type: "error", message: `${JSON.parse(responseText).message}` }));
+    }
+    const submitHandler = async (values) => {
+        const member = isMember(values.email);
+        if (member) toast({ type: "warning", message: `Member don't have access to modify information` });
+        else {
+            updateUser(values);
+        }
+    };
+
+    const notificationToggle = () => {
+        const noti = !emailNotification;
+        setEmailNotification(noti);
+        updateUser({emailNotification: noti});
+    }
 
     return (
         <div>
@@ -26,65 +79,117 @@ function UserProfile({ id, email, name, skill, status }) {
             <div className={styles.formContainer}>
                 <div className="flex justify-between items-center ">
                     <h3 className={styles.formHeading}>Account Settings</h3>
-                    <FontAwesomeIcon icon={faAngleUp} className={`${styles.formAngleUP} ${accountOpen ? styles.formAngleUpClose : styles.formAngleUpOpen}`} onClick={()=> setAccountOpen(!accountOpen)}/>
+                    <FontAwesomeIcon icon={faAngleUp} className={`${styles.formAngleUP} ${accountOpen ? styles.formAngleUPClose : styles.formAngleUPOpen}`} onClick={()=> setAccountOpen(!accountOpen)}/>
                 </div>
                 {accountOpen && (
                     <Fragment>
-                        <div className={styles.inputsContainer}>
-                            <div>
-                                <label className={styles.label} htmlhtmlhtmlFor="firstName">First Name</label>
-                                <input type="text" name="firstName" className={styles.input} id="firstName" placeholder="John" value="" />
-                            </div>
-                            <div>
-                                <label className={styles.label} htmlhtmlFor="lastName">Last Name</label>
-                                <input type="text" name="lastName" className={styles.input} id="lastName" placeholder="Bing" value="" />
-                            </div>
-                            <div>
-                                <label className={styles.label} htmlhtmlFor="userEmail">Email</label>
-                                <input type="email" className={styles.input} id="userEmail" name="email" placeholder="john-bing@gmail.Com" value="karthias93@gmail.com" />
-                            </div>
-                            <div>
-                                <label className={styles.label} htmlhtmlFor="userEmail">Username</label>
-                                <input type="username" className={styles.input} id="userUsername" name="username" placeholder="john-bing" value="karthick" />
-                            </div>
-                            <div>
-                                <label className={styles.label} htmlhtmlFor="phoneNumber">Phone Number</label>
-                                <input type="text" className={styles.input} id="phoneNumber" name="phone" placeholder="+1 | 65654246465" value="" />
-                            </div>
-                        </div>
-                        <div className="flex justify-end"><button className={styles.formBtn}>Save</button></div>
+                        <Formik
+                            initialValues={{
+                                firstName: user?.firstName ? user.firstName : '',
+                                lastName: user?.lastName ? user.lastName : '',
+                                username: user?.username ? user.username : '',
+                                email: user?.email ? user.email : '',
+                                phone: user?.phone ? user.phone : ''
+                            }}
+                            validationSchema={AccountSettingsSchema}
+                            onSubmit={(values) => {
+                                submitHandler(values);
+                            }}
+                        >
+                            {(formik) => {
+                                const { errors, touched, isValid, dirty } = formik;
+                                return (
+                                    <Form>
+                                        <div className={styles.inputsContainer}>
+                                            <div>
+                                                <label className={styles.label} htmlFor="firstName">First Name</label>
+                                                <Field type="text" name="firstName" className={`${errors.firstName && touched.firstName ? 
+                                                    styles['input-error'] : null} ${styles.input}`} id="firstName" placeholder="John" />
+                                            </div>
+                                            <div>
+                                                <label className={styles.label} htmlFor="lastName">Last Name</label>
+                                                <Field type="text" name="lastName" className={`${errors.lastName && touched.lastName ? 
+                                                    styles['input-error'] : null} ${styles.input}`} id="lastName" placeholder="Bing" />
+                                            </div>
+                                            <div>
+                                                <label className={styles.label} htmlFor="userEmail">Email</label>
+                                                <Field type="email" className={`${errors.email && touched.email ? 
+                                                    styles['input-error'] : null} ${styles.input}`} id="userEmail" name="email" placeholder="john-bing@gmail.Com" />
+                                            </div>
+                                            <div>
+                                                <label className={styles.label} htmlFor="userEmail">Username</label>
+                                                <Field type="username" className={`${errors.username && touched.username ? 
+                                                    styles['input-error'] : null} ${styles.input}`} id="userUsername" name="username" placeholder="john-bing" />
+                                            </div>
+                                            <div>
+                                                <label className={styles.label} htmlFor="phoneNumber">Phone Number</label>
+                                                <Field type="text" className={`${errors.phone && touched.phone ? 
+                                                    styles['input-error'] : null} ${styles.input}`} id="phoneNumber" name="phone" placeholder="+1 | 65654246465" />
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-end">
+                                            <button className={`${styles.formBtn} ${!(dirty && isValid) ? "disabled-btn" : ""}`} disabled={!(dirty && isValid)}>Save</button>
+                                        </div>
+                                    </Form>
+                                );
+                            }}
+                        </Formik>
                     </Fragment>
                 )}
             </div>
             <div className={styles.formContainer}>
                 <div className="flex justify-between items-center">
                     <h3 className={styles.formHeading}>Change Password</h3>
-                    <FontAwesomeIcon icon={faAngleUp} className={`${styles.formAngleUP} ${passwordOpen ? styles.formAngleUpClose : styles.formAngleUpOpen}`} onClick={()=> setPasswordOpen(!passwordOpen)}/>
+                    <FontAwesomeIcon icon={faAngleUp} className={`${styles.formAngleUP} ${passwordOpen ? styles.formAngleUPClose : styles.formAngleUPOpen}`} onClick={()=> setPasswordOpen(!passwordOpen)}/>
                 </div>
                 {passwordOpen && (
                     <Fragment>
-                        <div className={styles.inputsContainer}>
-                            <div>
-                                <label className={styles.label} htmlFor="oldPassword">Old Password</label>
-                                <input type="password" className={styles.input} id="oldPassword" placeholder="***********" />
-                            </div>
-                            <div>
-                                <label className={styles.label} htmlFor="newPassword">New Password</label>
-                                <input type="password" className={styles.input} id="newPassword" placeholder="***********" />
-                            </div>
-                            <div>
-                                <label className={styles.label} htmlFor="confirmPassword">Confirm Password</label>
-                                <input type="password" className={styles.input} id="confirmPassword" placeholder="***********" />
-                            </div>
-                        </div>
-                        <div className="flex justify-end"><button className={styles.formBtn}>Change</button></div>
+                        <Formik
+                            initialValues={{
+                                oldPassword: '',
+                                newPassword: '',
+                                confirmPassword: ''
+                            }}
+                            validationSchema={changePasswordSchema}
+                            onSubmit={(values) => {
+                                delete values.confirmPassword;
+                                submitHandler(values);
+                            }}
+                        >
+                            {(formik) => {
+                                const { errors, touched, isValid, dirty } = formik;
+                                return (
+                                    <Form>
+                                        <div className={styles.inputsContainer}>
+                                            <div>
+                                                {console.log(errors, touched)}
+                                                <label className={styles.label} htmlFor="oldPassword">Old Password</label>
+                                                <Field type="password" className={`${errors.oldPassword && touched.oldPassword ? 
+                                                    styles['input-error'] : null} ${styles.input}`} id="oldPassword" name="oldPassword" placeholder="***********" />
+                                            </div>
+                                            <div>
+                                                <label className={styles.label} htmlFor="newPassword">New Password</label>
+                                                <Field type="password" className={`${errors.newPassword && touched.newPassword ? 
+                                                    styles['input-error'] : null} ${styles.input}`} id="newPassword" name="newPassword" placeholder="***********" />
+                                            </div>
+                                            <div>
+                                                <label className={styles.label} htmlFor="confirmPassword">Confirm Password</label>
+                                                <Field type="password" className={`${errors.confirmPassword && touched.confirmPassword ? 
+                                                    styles['input-error'] : null} ${styles.input}`} id="confirmPassword" name="confirmPassword" placeholder="***********" />
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-end"><button className={`${styles.formBtn} ${!(dirty && isValid) ? "disabled-btn" : ""}`} disabled={!(dirty && isValid)}>Change</button></div>
+                                    </Form>
+                                );
+                            }}
+                        </Formik>
                     </Fragment>
                 )}
             </div>
             <div className={styles.formContainer}>
                 <div className="flex justify-between items-center">
                     <h3 className={styles.formHeading}>Email Notifications</h3>
-                    <FontAwesomeIcon icon={faAngleUp} className={`${styles.formAngleUP} ${emailOpen ? styles.formAngleUpClose : styles.formAngleUpOpen}`} onClick={()=> setEmailOpen(!emailOpen)}/>
+                    <FontAwesomeIcon icon={faAngleUp} className={`${styles.formAngleUP} ${emailOpen ? styles.formAngleUPClose : styles.formAngleUPOpen}`} onClick={()=> setEmailOpen(!emailOpen)}/>
                 </div>
                 {emailOpen && (
                     <div className="mt-10">
@@ -95,8 +200,8 @@ function UserProfile({ id, email, name, skill, status }) {
                             </div>
                             <div className={styles.switch}>
                                 <span className={styles.span}>
-                                    <input type="checkbox" className={`${styles.input} ${styles.checkbox}`} checked="" />
-                                    <button className={styles.slider} type="button"></button>
+                                    <input type="checkbox" className={`${styles.input} ${styles.checkbox}`} checked={emailNotification} />
+                                    <button className={styles.slider} type="button" onClick={notificationToggle}></button>
                                 </span>
                             </div>
                         </div>
