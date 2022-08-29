@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, Fragment } from "react";
 import styles from "scss/components/UserDropdown.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleState as toggleSignUpScreenState } from "reduxState/slices/signUpModalSlice";
@@ -9,6 +9,7 @@ import { auth as authState } from "reduxState/slices/authSlice";
 import { forwardRef } from "react";
 import { socket } from "./ChatModal";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const UserDropdown = forwardRef((props, ref) => {
     const [stateValue, stateSetter] = props.state;
@@ -57,9 +58,14 @@ const UserDropdown = forwardRef((props, ref) => {
                 </>
             )}
             {auth && (
-                <button className={`${styles.btn} weight-6`} onClick={logout}>
-                    Logout
-                </button>
+                <Fragment>
+                    <Link href="/profile">
+                        <button className={`${styles.btn} weight-6`}>Profile</button>
+                    </Link>
+                    <button className={`${styles.btn} weight-6`} onClick={logout}>
+                        Logout
+                    </button>
+                </Fragment>
             )}
         </div>
     );

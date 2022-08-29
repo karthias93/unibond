@@ -1,9 +1,19 @@
 @forward "globals";
 @use "./utils" as u;
 
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
 $toastify-toast-width: 360px;
 
-body {
+:root {
+    --app-color: #f4bb00;
+    --common-app-text: #f4bb00;
+    --white: #fff;
+    --common-app-bg: #ebf9f5;
+    --text-color: #2b2e35;
+    --status-bad: #d12c2c;
 }
 
 @include u.breakpoint(xsmall) {
@@ -19,5 +29,10 @@ body {
         & .fs-10px {
             font-size: u.rem(9);
         }
+    }
+}
+@media (max-width: 767px) {
+    * {
+        font-size: 12px;
     }
 }
