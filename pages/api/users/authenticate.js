@@ -30,7 +30,8 @@ var authenticate = async (req, res) => {
         phone: user.phone,
         firstName: user.firstName,
         lastName: user.lastName,
-        emailNotification: user.emailNotification
+        emailNotification: user.emailNotification,
+        profilePic: user.profilePic
     });
 };
 

@@ -1,21 +1,43 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "scss/components/ChatScreen.module.scss";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { formulateDate } from "utils/helpers/date/messageDate";
+import { toggleState as toggleChatScreenState } from "reduxState/slices/chatModalSlice";
+import { toggleState as toggleBlackScreenState } from "reduxState/slices/blackScreenSlice";
+import { chatUser } from "../reduxState/slices/chatUserSlice";
 
 function Messages({ messages, setMessages, socket, sender }) {
     const [arrivalMessage, setArrivalMessage] = useState(null);
     const reciever = useSelector((state) => state.chatUserState);
     const [latestMessageSender, setLatestMessageSender] = useState();
+    const dispatch = useDispatch();
+    const chatUsers = useSelector((state) => state.usersState);
+    const chatScreenState = useSelector((state) => state.chatScreenState);
+    const chatUserRef = useRef();
+    useEffect(() => { chatUserRef.current = chatUsers; }, [chatUsers]);
+    const chatScreenStateRef = useRef();
+    useEffect(() => { chatScreenStateRef.current = chatScreenState; }, [chatScreenState]);
 
     useEffect(() => {
         if (socket.current) {
+            console.log('------');
             socket.current.on("msg-recieve", (id, msg, to, from, createdAt) => {
                 setLatestMessageSender(from);
                 setArrivalMessage({ sender: from, message: msg, createdAt, to, id });
+                if (chatUserRef.current.users.length && from && !chatScreenStateRef.current.show) {
+                    const index = chatUserRef.current.users.findIndex((user)=>user._id===from);
+                    if (index !== -1) {
+                        const { _id, email, username, status, skill } = chatUserRef.current.users[index];
+                        dispatch(chatUser({ id: _id, email, username, status, skill }));
+                        if (!window.location.href.includes(`chat`)) {
+                            dispatch(toggleChatScreenState(true));
+                            dispatch(toggleBlackScreenState(true));
+                        }
+                    }
+                }
             });
         }
-    }, [reciever, socket]);
+    }, [reciever, socket.current, dispatch]);
 
     useEffect(() => {
         if (latestMessageSender && reciever.id === latestMessageSender) {

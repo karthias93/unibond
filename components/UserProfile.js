@@ -11,6 +11,7 @@ import * as Yup from "yup";
 import { isMember } from "../utils/helpers/member";
 import axios from "axios";
 import { auth as authState } from "reduxState/slices/authSlice";
+import Image from "next/image";
 
 library.add(fab);
 
@@ -34,8 +35,10 @@ function UserProfile() {
     const [accountOpen, setAccountOpen] = useState(false);
     const [passwordOpen, setPasswordOpen] = useState(false);
     const [emailOpen, setEmailOpen] = useState(false);
+    const [profileOpen, setProfileOpen] = useState(false);
     const [emailNotification, setEmailNotification] = useState(false);
     const user = useSelector((state)=> state.authState);
+    const [file, setFile] = useState();
 
     useEffect(()=>{
         if(user) setEmailNotification(user.emailNotification);
@@ -71,6 +74,26 @@ function UserProfile() {
         const noti = !emailNotification;
         setEmailNotification(noti);
         updateUser({emailNotification: noti});
+    }
+    const handleChange = (e) => {
+        const image = e.target.files[0];
+        const body = new FormData();
+        body.append("file", image);
+        body.append("id", user.id);
+        axios
+            .post(`/api/users/profilepic`, body)
+            .then((res) => {
+                dispatch(authState({
+                    ...user,
+                    ...res.data
+                }));
+                localStorage.setItem("currentUser", JSON.stringify({
+                    ...user,
+                    ...res.data
+                }));
+                toast({ type: "success", message: `updated successfully` });
+            })
+            .catch(({ request: { responseText } }) => toast({ type: "error", message: `${JSON.parse(responseText).message}` }));
     }
 
     return (
@@ -184,6 +207,20 @@ function UserProfile() {
                             }}
                         </Formik>
                     </Fragment>
+                )}
+            </div>
+            <div className={styles.formContainer}>
+                <div className="flex justify-between items-center">
+                    <h3 className={styles.formHeading}>Profile picture</h3>
+                    <FontAwesomeIcon icon={faAngleUp} className={`${styles.formAngleUP} ${profileOpen ? styles.formAngleUPClose : styles.formAngleUPOpen}`} onClick={()=> setProfileOpen(!profileOpen)}/>
+                </div>
+                {profileOpen && (
+                    <div className={`mt-10 ${styles['image-upload']}`}>
+                        <label htmlFor="file-input">
+                            <Image src={`/uploads/${user.profilePic ? user.profilePic : 'profile-picture-default.png'}`} alt="default-pic" width={200} height={200}/>
+                        </label>
+                        <input type="file" onChange={handleChange} id="file-input" accept="image/*"/>
+                    </div>
                 )}
             </div>
             <div className={styles.formContainer}>

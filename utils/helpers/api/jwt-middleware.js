@@ -16,6 +16,7 @@ function jwtMiddleware(req, res) {
             "/api/members",
             "/api/members/register",
             "/api/members/authenticate",
+            "/api/users/profilepic",
         ],
     });
 

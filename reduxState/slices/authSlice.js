@@ -26,6 +26,7 @@ export const authSlice = createSlice({
             state.lastName = action.payload?.lastName;
             state.phone = action.payload?.phone;
             state.emailNotification = action.payload?.emailNotification;
+            state.profilePic = action.payload?.profilePic;
         },
     },
 });
