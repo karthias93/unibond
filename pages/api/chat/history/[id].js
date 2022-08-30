@@ -5,8 +5,7 @@ import { ObjectId } from "mongodb";
 const chatHistory = async (req, res) => {
     const { db } = await connectToDatabase();
 
-    const { id } = req.query;
-
+    const { id, table } = req.query;
     const messages = await db
         .collection("messages")
         .aggregate([
@@ -29,7 +28,7 @@ const chatHistory = async (req, res) => {
         .limit(5)
         .map(x => new ObjectId(x._id))
         .toArray();
-    const response = await db.collection('members').find( { _id: { $in: messages } } ).toArray();
+    const response = await db.collection(table).find( { _id: { $in: messages } } ).toArray();
 
     res.status(200).json(response);
 };

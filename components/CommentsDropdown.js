@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import styles from "scss/components/CommentsDropdown.module.scss";
 import IconButton from "./IconButton";
 import toast from "./Toast";
+import { isMember } from "../utils/helpers/member";
 
 const UserCard = ({ img, title, notify, notficationCount }) => {
   return (
@@ -28,8 +29,12 @@ const CommentsDropdown = React.forwardRef((props, ref) => {
   const currentUser = useSelector((state)=>state.authState);
   useEffect(()=>{
     if (currentUser.token) {
+      const member = isMember(currentUser.email);
       axios
         .get(`/api/chat/history/${currentUser.id}`, {
+          params: {
+            table: member ? 'users' : 'members'
+          },
           headers: {
               Authorization: `bearer ${currentUser.token}`,
           },
