@@ -1,5 +1,6 @@
+import axios from "axios";
 import SidebarButtonDropdownHOC from "HOC/SidebarButtonDropdownHOC";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "reduxState/slices/themeSlice";
 import styles from "scss/components/SidebarHeader.module.scss";
@@ -15,10 +16,24 @@ function SidebarHeader() {
   const { isDark } = useSelector((state) => state.themeState);
   const user = useSelector((state)=> state.authState);
   const dispatch = useDispatch();
+  const [profilePic, setProfilePic] = useState('');
 
   const themeChanger = () => {
     dispatch(toggleTheme(!isDark));
   };
+
+  const getImage = (profilePic) => {
+    try {
+        const filename = profilePic ? profilePic : `profile-picture-default.png`;
+        axios.get(`${process.env.apiUrl}/api/images/${filename}`,{ responseType: 'blob' }).then(({ data }) => setProfilePic(URL.createObjectURL(data)));
+    } catch(e) {
+        console.log(e)
+    }
+  }
+
+  useEffect(() => {
+    getImage(user.profilePic);
+  }, [user]);
 
   return (
     <div className={styles.wrapper}>
@@ -42,7 +57,7 @@ function SidebarHeader() {
         Button={IconButton}
         Dropdown={UserDropdown}
         buttonProps={{
-          img: `/uploads/${user?.profilePic ? user.profilePic : 'profile-picture-default.png'}`,
+          img: profilePic,
           profilePic: true
         }}
       />

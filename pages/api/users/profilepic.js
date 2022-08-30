@@ -16,7 +16,7 @@ const updateProfilepic = async (req, res) => {
     const form = new formidable.IncomingForm();
     form.parse(req, async function (err, fields, files) {
       await saveFile(files.file);
-      const updated = await db.collection("users").updateOne({ _id: new ObjectId(fields.id) }, { $set: {profilePic: files.file.originalFilename} });
+      const updated = await db.collection("users").updateOne({ _id: new ObjectId(fields.id) }, { $set: {profilePic: files.file.originalFilename.replace(/[^a-z0-9]/gi, '_').toLowerCase()} });
       if (!updated) throw `Something went wrong!!`;
       const response = await db.collection("users").findOne({ _id: new ObjectId(fields.id) });
       return res.status(200).json(response);
@@ -25,7 +25,7 @@ const updateProfilepic = async (req, res) => {
 
 const saveFile = async (file) => {
     const data = fs.readFileSync(file.filepath);
-    fs.writeFileSync(`./public/uploads/${file.originalFilename}`, data);
+    fs.writeFileSync(`./public/uploads/${file.originalFilename.replace(/[^a-z0-9]/gi, '_').toLowerCase()}`, data);
     await fs.unlinkSync(file.filepath);
     return;
 };

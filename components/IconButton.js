@@ -17,7 +17,7 @@ const IconButton = forwardRef((props, ref) => {
                 ) : profilePic ? (
                     <>
                         {notify ? <div className={styles.notficationCircle}></div> : ""}
-                        <Image src={img} alt="default-pic" className={styles['profile-pic']} layout="fill" />
+                        <img src={img} alt="default-pic" className={styles['profile-pic']} layout="fill" />
                     </>
                 ) : (
                     <>

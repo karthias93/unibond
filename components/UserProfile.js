@@ -38,7 +38,20 @@ function UserProfile() {
     const [profileOpen, setProfileOpen] = useState(false);
     const [emailNotification, setEmailNotification] = useState(false);
     const user = useSelector((state)=> state.authState);
-    const [file, setFile] = useState();
+    const [profilePic, setProfilePic] = useState('');
+
+    const getImage = (profilePic) => {
+        try {
+            const filename = profilePic ? profilePic : `profile-picture-default.png`;
+            axios.get(`${process.env.apiUrl}/api/images/${filename}`,{ responseType: 'blob' }).then(({ data }) => setProfilePic(URL.createObjectURL(data)));
+        } catch(e) {
+            console.log(e)
+        }
+    }
+    
+    useEffect(() => {
+        getImage(user.profilePic);
+    }, [user]);
 
     useEffect(()=>{
         if(user) setEmailNotification(user.emailNotification);
@@ -216,7 +229,7 @@ function UserProfile() {
                 </div>
                 {profileOpen && (
                     <div className={`mt-10 ${styles['image-upload']}`}>
-                        <Image src={`/uploads/${user.profilePic ? user.profilePic : 'profile-picture-default.png'}`} alt="default-pic" width={200} height={200}/>
+                        <Image src={profilePic} alt="default-pic" width={200} height={200}/>
                             <div className="flex justify-start">
                                 <label htmlFor="file-input" className={styles.formBtn}>
                                     Upload Image
