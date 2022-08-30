@@ -20,7 +20,6 @@ function Messages({ messages, setMessages, socket, sender }) {
 
     useEffect(() => {
         if (socket.current) {
-            console.log('------');
             socket.current.on("msg-recieve", (id, msg, to, from, createdAt) => {
                 setLatestMessageSender(from);
                 setArrivalMessage({ sender: from, message: msg, createdAt, to, id });

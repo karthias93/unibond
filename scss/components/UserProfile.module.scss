@@ -52,6 +52,12 @@
     font-family: Poppins;
     margin-top: 1.875rem;
 }
+label.formBtn {
+    padding: 1rem 2.1rem;
+    cursor: pointer;
+    min-width: 200px;
+    text-align: center;
+}
 .socilaAccount {
     display: flex;
     align-items: center;
@@ -168,9 +174,6 @@
     border: 1px solid red;
 }
 .image-upload {
-    img {
-        cursor: pointer;
-    }
     input {
         display: none;
     }

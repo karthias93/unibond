@@ -3,7 +3,7 @@ import styles from "scss/components/UserProfile.module.scss";
 import toast from "./Toast";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
+import { faAngleUp, faCamera } from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { Formik, Form, Field } from "formik";
@@ -216,10 +216,13 @@ function UserProfile() {
                 </div>
                 {profileOpen && (
                     <div className={`mt-10 ${styles['image-upload']}`}>
-                        <label htmlFor="file-input">
-                            <Image src={`/uploads/${user.profilePic ? user.profilePic : 'profile-picture-default.png'}`} alt="default-pic" width={200} height={200}/>
-                        </label>
-                        <input type="file" onChange={handleChange} id="file-input" accept="image/*"/>
+                        <Image src={`/uploads/${user.profilePic ? user.profilePic : 'profile-picture-default.png'}`} alt="default-pic" width={200} height={200}/>
+                            <div className="flex justify-start">
+                                <label htmlFor="file-input" className={styles.formBtn}>
+                                    Upload Image
+                                </label>
+                                <input type="file" onChange={handleChange} id="file-input" accept="image/*"/>
+                            </div>
                     </div>
                 )}
             </div>
