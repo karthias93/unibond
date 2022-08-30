@@ -13,6 +13,7 @@ import UserDropdown from "./UserDropdown";
 
 function SidebarHeader() {
   const { isDark } = useSelector((state) => state.themeState);
+  const user = useSelector((state)=> state.authState);
   const dispatch = useDispatch();
 
   const themeChanger = () => {
@@ -41,7 +42,8 @@ function SidebarHeader() {
         Button={IconButton}
         Dropdown={UserDropdown}
         buttonProps={{
-          img: "peoples/user.png",
+          img: `/uploads/${user?.profilePic ? user.profilePic : 'profile-picture-default.png'}`,
+          profilePic: true
         }}
       />
     </div>

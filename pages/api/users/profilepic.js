@@ -17,7 +17,9 @@ const updateProfilepic = async (req, res) => {
     form.parse(req, async function (err, fields, files) {
       await saveFile(files.file);
       const updated = await db.collection("users").updateOne({ _id: new ObjectId(fields.id) }, { $set: {profilePic: files.file.originalFilename} });
-      return res.status(201).send("");
+      if (!updated) throw `Something went wrong!!`;
+      const response = await db.collection("users").findOne({ _id: new ObjectId(fields.id) });
+      return res.status(200).json(response);
     });
 };
 
