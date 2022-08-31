@@ -15,10 +15,11 @@ const updateProfilepic = async (req, res) => {
     const { db } = await connectToDatabase();
     const form = new formidable.IncomingForm();
     form.parse(req, async function (err, fields, files) {
+      const table = fields.isMember ? "members" : "users";
       await saveFile(files.file);
-      const updated = await db.collection("users").updateOne({ _id: new ObjectId(fields.id) }, { $set: {profilePic: files.file.originalFilename.replace(/[^a-z0-9]/gi, '_').toLowerCase()} });
+      const updated = await db.collection(table).updateOne({ _id: new ObjectId(fields.id) }, { $set: {profilePic: files.file.originalFilename.replace(/[^a-z0-9]/gi, '_').toLowerCase()} });
       if (!updated) throw `Something went wrong!!`;
-      const response = await db.collection("users").findOne({ _id: new ObjectId(fields.id) });
+      const response = await db.collection(table).findOne({ _id: new ObjectId(fields.id) });
       return res.status(200).json(response);
     });
 };

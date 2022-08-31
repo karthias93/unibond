@@ -13,7 +13,7 @@ import axios from "axios";
 import { auth as authState } from "reduxState/slices/authSlice";
 import Image from "next/image";
 
-library.add(fab);
+library.add(fab);   
 
 const AccountSettingsSchema = Yup.object().shape({
     firstName: Yup.string(),
@@ -26,7 +26,7 @@ const AccountSettingsSchema = Yup.object().shape({
 const changePasswordSchema = Yup.object({
     oldPassword: Yup.string().required('Password is required'),
     confirmPassword: Yup.string()
-       .oneOf([Yup.ref('oldPassword'), null], 'Passwords must match'),
+       .oneOf([Yup.ref('newPassword'), null], 'Passwords must match'),
     newPassword: Yup.string().required('New password is required')
   });
 
@@ -39,6 +39,7 @@ function UserProfile() {
     const [emailNotification, setEmailNotification] = useState(false);
     const user = useSelector((state)=> state.authState);
     const [profilePic, setProfilePic] = useState('');
+    const [member, setMember] = useState(false);
 
     const getImage = (profilePic) => {
         try {
@@ -51,6 +52,9 @@ function UserProfile() {
     
     useEffect(() => {
         getImage(user.profilePic);
+        if (user) {
+            setMember(isMember(user.email));
+        }
     }, [user]);
 
     useEffect(()=>{
@@ -60,7 +64,8 @@ function UserProfile() {
         axios
             .patch(`/api/users`, {
                 ...values,
-                id: user.id
+                id: user.id,
+                isMember: member
             })
             .then((res) => {
                 dispatch(authState({
@@ -76,11 +81,7 @@ function UserProfile() {
             .catch(({ request: { responseText } }) => toast({ type: "error", message: `${JSON.parse(responseText).message}` }));
     }
     const submitHandler = async (values) => {
-        const member = isMember(values.email);
-        if (member) toast({ type: "warning", message: `Member don't have access to modify information` });
-        else {
-            updateUser(values);
-        }
+        updateUser(values);
     };
 
     const notificationToggle = () => {
@@ -93,6 +94,7 @@ function UserProfile() {
         const body = new FormData();
         body.append("file", image);
         body.append("id", user.id);
+        body.append("isMember", member);
         axios
             .post(`/api/users/profilepic`, body)
             .then((res) => {
@@ -150,7 +152,7 @@ function UserProfile() {
                                             <div>
                                                 <label className={styles.label} htmlFor="userEmail">Email</label>
                                                 <Field type="email" className={`${errors.email && touched.email ? 
-                                                    styles['input-error'] : null} ${styles.input}`} id="userEmail" name="email" placeholder="john-bing@gmail.Com" />
+                                                    styles['input-error'] : null} ${styles.input}`} id="userEmail" name="email" placeholder="john-bing@gmail.Com" disabled={member}/>
                                             </div>
                                             <div>
                                                 <label className={styles.label} htmlFor="userEmail">Username</label>
@@ -239,28 +241,30 @@ function UserProfile() {
                     </div>
                 )}
             </div>
-            <div className={styles.formContainer}>
-                <div className="flex justify-between items-center">
-                    <h3 className={styles.formHeading}>Email Notifications</h3>
-                    <FontAwesomeIcon icon={faAngleUp} className={`${styles.formAngleUP} ${emailOpen ? styles.formAngleUPClose : styles.formAngleUPOpen}`} onClick={()=> setEmailOpen(!emailOpen)}/>
-                </div>
-                {emailOpen && (
-                    <div className="mt-10">
-                        <div className={styles.notification}>
-                            <div>
-                                <h3 className={styles.notificationHeading}>Updates And Offers</h3>
-                                <div className={styles.notificationDetails}>Discounts, Special Offers, New Features And More</div>
-                            </div>
-                            <div className={styles.switch}>
-                                <span className={styles.span}>
-                                    <input type="checkbox" className={`${styles.input} ${styles.checkbox}`} checked={emailNotification} />
-                                    <button className={styles.slider} type="button" onClick={notificationToggle}></button>
-                                </span>
+            {!member && (
+                <div className={styles.formContainer}>
+                    <div className="flex justify-between items-center">
+                        <h3 className={styles.formHeading}>Email Notifications</h3>
+                        <FontAwesomeIcon icon={faAngleUp} className={`${styles.formAngleUP} ${emailOpen ? styles.formAngleUPClose : styles.formAngleUPOpen}`} onClick={()=> setEmailOpen(!emailOpen)}/>
+                    </div>
+                    {emailOpen && (
+                        <div className="mt-10">
+                            <div className={styles.notification}>
+                                <div>
+                                    <h3 className={styles.notificationHeading}>Updates And Offers</h3>
+                                    <div className={styles.notificationDetails}>Discounts, Special Offers, New Features And More</div>
+                                </div>
+                                <div className={styles.switch}>
+                                    <span className={styles.span}>
+                                        <input type="checkbox" className={`${styles.input} ${styles.checkbox}`} checked={emailNotification} />
+                                        <button className={styles.slider} type="button" onClick={notificationToggle}></button>
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                )}
-            </div>
+                    )}
+                </div>
+            )}
             <div className={styles.formContainer}>
                 <div className="flex justify-between items-center mb-10">
                     <h3 className={styles.formHeading}>Social Profile</h3>

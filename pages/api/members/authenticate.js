@@ -28,6 +28,11 @@ var authenticate = async (req, res) => {
         isAdmin: true,
         email: member.email,
         skill: member.skill,
+        phone: member.phone,
+        firstName: member.firstName,
+        lastName: member.lastName,
+        emailNotification: member.emailNotification,
+        profilePic: member.profilePic
     });
 };
 
