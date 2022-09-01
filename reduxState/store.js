@@ -11,6 +11,7 @@ import loaderSlice from "./slices/loaderSlice";
 import servicesSlice from "./slices/servicesSlice";
 import ordersSlice from "./slices/ordersSlice";
 import notificationsSlice from "./slices/notificationsSlice";
+import dashboardSlice from "./slices/dashboardSlice";
 
 export const store = configureStore({
     reducer: {
@@ -25,6 +26,7 @@ export const store = configureStore({
         loaderState: loaderSlice,
         servicesState: servicesSlice,
         ordersState: ordersSlice,
-        notificationsState: notificationsSlice
+        notificationsState: notificationsSlice,
+        dashboardState: dashboardSlice
     },
 });

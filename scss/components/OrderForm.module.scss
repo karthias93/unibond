@@ -1,0 +1,52 @@
+.inputsContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 1.875rem;
+}
+
+.label {
+    color: var(--text-color);
+    font-family: Poppins;
+    font-size: 1rem;
+    line-height: 1.2;
+    margin-bottom: 0.625rem;
+}
+
+.input {
+    color: var(--text-color);
+    font-family: Poppins;
+    height: 2.75rem;
+    width: 100%;
+    outline: none;
+    border: 1px solid var(--app-color);
+    font-size: .875rem;
+    padding: 0 1.25rem;
+    border-radius: 5px;
+}
+
+.textarea {
+    height: auto;
+}
+
+.input-error {
+    border: 1px solid red;
+}
+
+@media (max-width: 767px) {
+    .inputsContainer {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+        margin-top: 1.2rem;
+    }
+
+    .label {
+        font-size: 1.2rem;
+    }
+
+    .input {
+        height: 3.75rem;
+        font-size: 1rem;
+        padding-left: 1.1rem;
+    }
+}

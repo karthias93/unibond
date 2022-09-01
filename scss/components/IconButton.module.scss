@@ -2,7 +2,7 @@
 @use "../globals/colors" as colors;
 
 .button {
-  min-width: 2.7vw !important;
+  width: 2.7vw !important;
   height: 2.7vw;
   background: var(--color-icon-button);
   box-shadow: u.rem(0) u.rem(8) u.rem(23) rgba(0, 0, 0, 0.21);

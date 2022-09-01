@@ -7,8 +7,9 @@ import { toggleState as toggleBlackScreenState } from "reduxState/slices/blackSc
 import { chatUser } from "../reduxState/slices/chatUserSlice";
 import { toCapital } from "../utils/helpers/toCapital";
 import { useRouter } from "next/router";
+import { IKImage } from "imagekitio-react";
 
-function UserCard({ id, email, name, skill, status }) {
+function UserCard({ id, email, name, skill, status, profilePic }) {
     const dispatch = useDispatch();
     const router = useRouter();
     const { auth } = useSelector((state) => state.authState);
@@ -27,10 +28,13 @@ function UserCard({ id, email, name, skill, status }) {
 
     return (
         <div className={styles.card} onClick={openChatDialog}>
-            <span className={`${styles.profilePicture} `}>
-                {name?.slice(0, 1).toUpperCase()}
-                <p className={status ? styles.online : styles.offline}></p>
-            </span>
+            {profilePic?.url ? 
+                (<IKImage src={profilePic.url} alt="" loading="lazy" lqip={{ active: true }} className={styles['profile-pic']}/>) : (
+                    <span className={`${styles.profilePicture} `}>
+                        {name?.slice(0, 1).toUpperCase()}
+                        <p className={status ? styles.online : styles.offline}></p>
+                    </span>
+            )}
             <div>
                 <h2 className="fs-20px weight-7 black mb-5px lh-1">{toCapital(name)}</h2>
                 <p className="fs-14px black weight-4 lh-1">{skill}</p>

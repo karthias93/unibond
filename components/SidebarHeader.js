@@ -16,24 +16,10 @@ function SidebarHeader() {
   const { isDark } = useSelector((state) => state.themeState);
   const user = useSelector((state)=> state.authState);
   const dispatch = useDispatch();
-  const [profilePic, setProfilePic] = useState('');
 
   const themeChanger = () => {
     dispatch(toggleTheme(!isDark));
   };
-
-  const getImage = (profilePic) => {
-    try {
-        const filename = profilePic ? profilePic : `profile-picture-default.png`;
-        axios.get(`${process.env.apiUrl}/api/images/${filename}`,{ responseType: 'blob' }).then(({ data }) => setProfilePic(URL.createObjectURL(data)));
-    } catch(e) {
-        console.log(e)
-    }
-  }
-
-  useEffect(() => {
-    getImage(user.profilePic);
-  }, [user]);
 
   return (
     <div className={styles.wrapper}>
@@ -57,7 +43,7 @@ function SidebarHeader() {
         Button={IconButton}
         Dropdown={UserDropdown}
         buttonProps={{
-          img: profilePic,
+          img: user?.profilePic?.url ? user.profilePic.url : `${process.env.imgUrlEndpoint}/profile-picture-default_x300PldEOA.png`,
           profilePic: true
         }}
       />

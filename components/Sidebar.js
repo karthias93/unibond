@@ -58,8 +58,8 @@ function Sidebar({ pageName }) {
                     </header>
                 </div>
                 <main className={styles.usersCards}>
-                    {updatedUsers?.map(({ username, _id, email, skill, status }) => (
-                        <UserCard name={username} skill={skill} id={_id} key={_id} email={email} status={status} />
+                    {updatedUsers?.map(({ username, _id, email, skill, status, profilePic }) => (
+                        <UserCard name={username} skill={skill} id={_id} key={_id} email={email} status={status} profilePic={profilePic} />
                     ))}
                 </main>
             </div>

@@ -10,7 +10,7 @@ import { isMember } from "../utils/helpers/member";
 const UserCard = ({ img, title, notify, notficationCount }) => {
   return (
     <div className={styles.userCard}>
-      <IconButton img={img} notify={notify} />
+      <IconButton img={img} notify={notify} profilePic={true} />
       <p className={`${styles.usercardTitle} white weight-7`}>{title}</p>
       {notficationCount ? (
         <p className={`${styles.commentNumber} gray weight-5`}>
@@ -50,7 +50,7 @@ const CommentsDropdown = React.forwardRef((props, ref) => {
     >
       {users.map(user=>{
         return (<UserCard
-          img="icons/userIcon.png"
+          img={user?.profilePic?.url ? user.profilePic.url : `${process.env.imgUrlEndpoint}/profile-picture-default_x300PldEOA.png`}
           title={user.username}
           notify={true}
           notficationCount={3}

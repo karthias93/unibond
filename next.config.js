@@ -12,7 +12,8 @@ const nextConfig = {
                 ? "http://localhost:3000" // development api
                 : "https://unibond-dashboard.herokuapp.com", // production api
         mailPassword: "ifjivwumzclucvmt",
-        mailUsername: "karthias93@gmail.com"
+        mailUsername: "karthias93@gmail.com",
+        imgUrlEndpoint: "https://ik.imagekit.io/uihusbecs1/unibond/"
     },
     serverRuntimeConfig: {
         secret: "THIS IS USED TO SIGN AND VERIFY JWT TOKENS, IT CAN BE ANY STRING",

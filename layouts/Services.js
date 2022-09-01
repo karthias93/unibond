@@ -1,6 +1,6 @@
 import axios from "axios";
 import ServiceCard from "components/ServiceCard";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { servicesState } from "reduxState/slices/servicesSlice";
 import styles from "scss/layout/Services.module.scss";
@@ -8,6 +8,7 @@ import styles from "scss/layout/Services.module.scss";
 function Services() {
     const dispatch = useDispatch();
     const { services } = useSelector((state)=>state.servicesState);
+
     useEffect(()=>{
         axios.get(`/api/services`)
             .then(({data})=>{

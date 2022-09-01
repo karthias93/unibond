@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "scss/layout/Dashboard.module.scss";
 import CompanyProgressCard from "components/CompanyProgressCard";
 import { TwitterTimelineEmbed } from "react-twitter-embed";
@@ -7,9 +7,21 @@ import { FaTwitter } from "react-icons/fa";
 import FlipCard from "components/FlipCard";
 
 import { IKImage } from "imagekitio-react";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { dashboardState } from "reduxState/slices/dashboardSlice";
 
 function Dashboard() {
     const isBellow640px = useMediaQuery("(max-width : 40em)");
+    const dashboard = useSelector((state)=>state.dashboardState);
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+        axios.get(`/api/dashboard`)
+            .then(({data}) => {
+                dispatch(dashboardState(data));
+            });
+    }, [dispatch])
     return (
         <main className={styles.main}>
             <CompanyProgressCard

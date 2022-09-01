@@ -12,6 +12,7 @@ import { isMember } from "../utils/helpers/member";
 import axios from "axios";
 import { auth as authState } from "reduxState/slices/authSlice";
 import Image from "next/image";
+import { IKImage, IKUpload } from "imagekitio-react";
 
 library.add(fab);   
 
@@ -38,20 +39,9 @@ function UserProfile() {
     const [profileOpen, setProfileOpen] = useState(false);
     const [emailNotification, setEmailNotification] = useState(false);
     const user = useSelector((state)=> state.authState);
-    const [profilePic, setProfilePic] = useState('');
     const [member, setMember] = useState(false);
-
-    const getImage = (profilePic) => {
-        try {
-            const filename = profilePic ? profilePic : `profile-picture-default.png`;
-            axios.get(`${process.env.apiUrl}/api/images/${filename}`,{ responseType: 'blob' }).then(({ data }) => setProfilePic(URL.createObjectURL(data)));
-        } catch(e) {
-            console.log(e)
-        }
-    }
     
     useEffect(() => {
-        getImage(user.profilePic);
         if (user) {
             setMember(isMember(user.email));
         }
@@ -89,14 +79,10 @@ function UserProfile() {
         setEmailNotification(noti);
         updateUser({emailNotification: noti});
     }
-    const handleChange = (e) => {
-        const image = e.target.files[0];
-        const body = new FormData();
-        body.append("file", image);
-        body.append("id", user.id);
-        body.append("isMember", member);
+
+    const onSuccess = (data) => {
         axios
-            .post(`/api/users/profilepic`, body)
+            .post(`/api/users/profilepic`, {...data, isMember: member, id: user.id})
             .then((res) => {
                 dispatch(authState({
                     ...user,
@@ -111,6 +97,9 @@ function UserProfile() {
             .catch(({ request: { responseText } }) => toast({ type: "error", message: `${JSON.parse(responseText).message}` }));
     }
 
+    const onError = (err) => {
+        console.log(err)
+    }
     return (
         <div>
             <h3 className={styles.heading}>Account Settings</h3>
@@ -231,12 +220,12 @@ function UserProfile() {
                 </div>
                 {profileOpen && (
                     <div className={`mt-10 ${styles['image-upload']}`}>
-                        <Image src={profilePic} alt="default-pic" width={200} height={200}/>
+                        <IKImage path={user?.profilePic?.filePath ? user.profilePic.filePath : '/profile-picture-default_x300PldEOA.png'} alt="" loading="lazy" lqip={{ active: true }} width={200} height={200}/>
                             <div className="flex justify-start">
                                 <label htmlFor="file-input" className={styles.formBtn}>
                                     Upload Image
                                 </label>
-                                <input type="file" onChange={handleChange} id="file-input" accept="image/*"/>
+                                <IKUpload id="file-input" accept="image/*" onSuccess={onSuccess} onError={onError}/>
                             </div>
                     </div>
                 )}
