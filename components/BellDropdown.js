@@ -29,7 +29,7 @@ function BellDropdown(props) {
   useEffect(()=>{
     if (user.id) {
       setMember(isMember(user.email));
-      const url = member ? `/api/notifications` : `api/notifications/${user.id}`;
+      const url = isMember(user.email) ? `/api/notifications` : `api/notifications/${user.id}`;
       axios.get(url, {
         headers: {
           Authorization: `bearer ${user.token}`,
