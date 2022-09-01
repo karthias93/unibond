@@ -7,6 +7,10 @@ import chatUserSlice from "./slices/chatUserSlice";
 import authSlice from "./slices/authSlice";
 import usersSlice from "./slices/usersSlice";
 import themeSlice from "./slices/themeSlice";
+import loaderSlice from "./slices/loaderSlice";
+import servicesSlice from "./slices/servicesSlice";
+import ordersSlice from "./slices/ordersSlice";
+import notificationsSlice from "./slices/notificationsSlice";
 
 export const store = configureStore({
     reducer: {
@@ -18,5 +22,9 @@ export const store = configureStore({
         authState: authSlice,
         usersState: usersSlice,
         chatUserState: chatUserSlice,
+        loaderState: loaderSlice,
+        servicesState: servicesSlice,
+        ordersState: ordersSlice,
+        notificationsState: notificationsSlice
     },
 });

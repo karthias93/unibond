@@ -1,25 +1,24 @@
+import axios from "axios";
 import ServiceCard from "components/ServiceCard";
-import useMediaQuery from "hooks/useMediaQuery";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { servicesState } from "reduxState/slices/servicesSlice";
 import styles from "scss/layout/Services.module.scss";
 
 function Services() {
-    const isBellow1024px = useMediaQuery("(max-width : 64em)");
-
+    const dispatch = useDispatch();
+    const { services } = useSelector((state)=>state.servicesState);
+    useEffect(()=>{
+        axios.get(`/api/services`)
+            .then(({data})=>{
+                dispatch(servicesState({ services: data }));
+            });
+    }, [dispatch])
     return (
         <div className={styles.wrapper}>
-            <ServiceCard title="UI/UX " icon="icons/uiuxIcon.svg" iconClass={`${styles.icon} ${styles.icon1}`} />
-            <ServiceCard title="Design" icon="icons/designIcon.svg" iconClass={`${styles.icon} ${styles.icon2}`} />
-            <ServiceCard title="Development" icon="icons/developmentIcon.svg" iconClass={`${styles.icon} ${styles.icon3}`} />
-            <ServiceCard title="Tokens" icon="icons/tokensIcon.svg" iconClass={`${styles.icon} ${styles.icon4}`} />
-            <ServiceCard title="Smart Contracts" icon="icons/smartcontractIcon.svg" iconClass={`${styles.icon} ${styles.icon5}`} />
-            <ServiceCard title="DApps" icon="icons/dappIcon.svg" iconClass={`${styles.icon} ${styles.icon6}`} />
-            <ServiceCard title="DeFi" icon="icons/defiIcon.svg" iconClass={`${styles.icon} ${styles.icon7}`} />
-            <ServiceCard title="NFTs" icon="icons/nftIcon.svg" iconClass={`${styles.icon} ${styles.icon8}`} />
-            <ServiceCard title="DEX" icon="icons/dexIcon.svg" iconClass={`${styles.icon} ${styles.icon9}`} />
-            <ServiceCard title="Web3" icon="icons/web3Icon.svg" iconClass={`${styles.icon} ${styles.icon10}`} />
-            <ServiceCard title="Blockchain" icon="icons/blockchainIcon.svg" iconClass={`${styles.icon} ${styles.icon11}`} />
-            <ServiceCard title="Metaverse" icon="icons/metaverseIcon.svg" iconClass={`${styles.icon} ${styles.icon12}`} />
+            {services.map((service, index)=>{
+                return <ServiceCard title={service.title} icon={`icons/${service.icon}`} iconClass={`${styles.icon} ${styles[`icon${index+1}`]}`} id={service._id} key={service._id}/>
+            })}
         </div>
     );
 }

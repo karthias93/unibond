@@ -10,6 +10,7 @@ import { store } from "reduxState/store";
 import BlackScreen from "components/BlackScreen";
 import ReduxStateProvider from "HOC/ReduxStateProvider";
 import { ToastContainer } from "react-toastify";
+import Loader from "components/Loader";
 
 const toastConfiig = {};
 
@@ -25,6 +26,7 @@ function MyApp({ Component, pageProps }) {
                 <BlackScreen />
                 <ReduxStateProvider />
                 <Component {...pageProps} />
+                <Loader />
             </IKContext>
         </Provider>
     );

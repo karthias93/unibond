@@ -1,12 +1,19 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { notificationsState } from "reduxState/slices/notificationsSlice";
 import styles from "scss/components/BellDropdown.module.scss";
+import { isMember } from "utils/helpers/member";
+import Link from "next/link";
 
-const NotificationCard = ({ title, notify }) => {
+const NotificationCard = ({ title, notify, link }) => {
   return (
     <div
       className={`${styles.notificationCard} ${notify ? styles.notify : ""}`}
     >
-      <p className={`${styles.notificationTitle} white`}>{title}</p>
+      <Link href={link ? link : "/order"}>
+        <p className={`${styles.notificationTitle} white`}>{title}</p>
+      </Link>
     </div>
   );
 };
@@ -14,19 +21,33 @@ const NotificationCard = ({ title, notify }) => {
 function BellDropdown(props) {
   const { ref } = props;
   const [stateValue, stateSetter] = props.state;
+  const [member, setMember] = useState(false);
+  const user = useSelector((state) => state.authState);
+  const { notifications } = useSelector((state) => state.notificationsState);
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    if (user.id) {
+      setMember(isMember(user.email));
+      const url = member ? `/api/notifications` : `api/notifications/${user.id}`;
+      axios.get(url, {
+        headers: {
+          Authorization: `bearer ${user.token}`,
+        }
+      }).then(({data}) => {
+        dispatch(notificationsState({notifications: data}));
+      });
+    }
+  }, [user])
 
   return (
     <div
       className={`${styles.dropdown} ${stateValue ? styles.open : ""}`}
       ref={ref}
     >
-      <NotificationCard title="Lorem ipsum dolor" notify={true} />
-      <NotificationCard title="Notification 2 (unread)" notify={true} />
-      <NotificationCard title="Notification 3 (unread)" notify={true} />
-      <NotificationCard title="Notification 4 (unread)" notify={true} />
-      <NotificationCard title="Notification 5 (unread)" />
-      <NotificationCard title="Notification 6 (unread)" />
-      <NotificationCard title="Notification 7 (unread)" />
+      {notifications.map((noti) => {
+        return <NotificationCard title={noti.message} link={noti.link} notify={true} key={noti._id} />
+      })}
     </div>
   );
 }

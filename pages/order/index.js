@@ -1,6 +1,6 @@
 import { useEffect, useCallback, useState } from "react";
 import DashboardLayout from "layouts/DashboardLayout";
-import OrderForm from "components/OrderForm";
+import MyOrders from "components/MyOrders";
 import { connectToDatabase } from "lib/mongoose/mongoDB";
 import { usersState } from "reduxState/slices/usersSlice";
 import { auth as authState } from "reduxState/slices/authSlice";
@@ -43,7 +43,7 @@ export default function Order({ isConnected }) {
     return (
         <div>
             <DashboardLayout pageName="Order">
-                <OrderForm />
+                <MyOrders />
             </DashboardLayout>
         </div>
     );
