@@ -14,6 +14,7 @@ const updateOrder = async (req, res) => {
     const { db } = await connectToDatabase();
     const { id } = req.query;
     const { ...order } = req.body;
+    order.updatedAt = Date.now(); 
     const updated = await db.collection('orders').updateOne({ _id: new ObjectId(id) }, { $set: order });
     if (!updated) throw `Something went wrong!!`;
     const response = await db.collection('orders').findOne({ _id: new ObjectId(id) });

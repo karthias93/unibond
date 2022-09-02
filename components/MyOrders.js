@@ -37,6 +37,7 @@ function MyOrders() {
 
     const submitOrder = (fields, id) => {
         dispatch(toggleLoaderState(true));
+        fields.updatedBy = user.id;
         axios.patch(`/api/orders/${id}`, fields,{
             headers: {
                 Authorization: `bearer ${user.token}`,
