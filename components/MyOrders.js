@@ -72,9 +72,9 @@ function MyOrders() {
         {
             Header: 'Status',
             accessor: 'status',
-            ...user.isAdmin ? {Cell: (cellObj) => {
+            ...(user.isAdmin) ? {Cell: (cellObj) => {
                 return (
-                    <select id="lang" onChange={(e) => handleClickEditRow(e, cellObj.row)} value={cellObj.row.values.status}>
+                    <select id="lang" onChange={(e) => handleClickEditRow(e, cellObj.row)} value={cellObj.row.values.status} className="p-2 rounded">
                         <option value="Pending">Pending</option>
                         <option value="Approved">Approved</option>
                         <option value="Completed">Completed</option>
