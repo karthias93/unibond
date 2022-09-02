@@ -12,24 +12,28 @@ function MyOrders() {
     const user = useSelector((state)=> state.authState);
     const { orders } = useSelector((state)=> state.ordersState);
 
+    const getOrders = () => {
+        axios.get(`/api/orders/${user.id}`, {
+            params: {
+                isMember: user.isAdmin
+            },
+            headers: {
+                Authorization: `bearer ${user.token}`,
+            }
+        }).then(({data})=> {
+            dispatch(ordersState({orders: data}));
+        });
+    }
+
     useEffect(()=>{
         if (user.id) {
-            axios.get(`/api/orders/${user.id}`, {
-                params: {
-                    isMember: user.isAdmin
-                },
-                headers: {
-                    Authorization: `bearer ${user.token}`,
-                }
-            }).then(({data})=> {
-                dispatch(ordersState({orders: data}));
-            });
+            getOrders();
         }
-    }, [user, dispatch]);
+    }, [user]);
 
     const handleClickEditRow = (e, row) => {
         dispatch(toggleLoaderState(true));
-        axios.patch(`/api/orders/${row.values._id}`, {
+        axios.patch(`/api/orders/${row.original._id}`, {
             status: e.target.value
         },{
             headers: {
@@ -37,6 +41,7 @@ function MyOrders() {
             }
         }).then(()=>{
             dispatch(toggleLoaderState(false));
+            getOrders();
         })
     }
 
@@ -83,7 +88,7 @@ function MyOrders() {
             }
             } : {}
         },
-    ], []);
+    ], [user]);
 
     const {
         getTableProps,
