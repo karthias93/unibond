@@ -16,7 +16,7 @@ import { auth as authState } from "reduxState/slices/authSlice";
 function SidebarRight(props) {
     const [state, stateSetter] = props.state;
     const sidebarRef = OutsideClickDetector(() => stateSetter(false));
-    const { auth } = useSelector((state) => state.authState);
+    const { auth, profilePic } = useSelector((state) => state.authState);
     const dispatch = useDispatch();
 
     const login = () => {
@@ -43,7 +43,7 @@ function SidebarRight(props) {
                     <IoClose />
                 </button>
 
-                <IconButton img="peoples/user.png"></IconButton>
+                <IconButton img={profilePic?.url ? profilePic.url : `${process.env.imgUrlEndpoint}/profile-picture-default_x300PldEOA.png`} profilePic={true}></IconButton>
             </header>
 
             <main>
@@ -59,12 +59,12 @@ function SidebarRight(props) {
                         <IconButton wrapperClassName={styles.sidebarlinkIcon} icon="icons/BellIcon.svg" notify={true} />
                     </a>
                 </Link>
-                <Link href="/" passHref>
+                <Link href="/profile" passHref>
                     <a>
                         <span className="fs-20px black weight-6">My Account</span>
                     </a>
                 </Link>
-                <Link href="/" passHref>
+                <Link href="/order" passHref>
                     <a>
                         <span className="fs-20px black weight-6">My Orders</span>
                     </a>

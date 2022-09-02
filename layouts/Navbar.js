@@ -6,7 +6,7 @@ import SidebarLeft from "./SidebarLeft";
 import { IoCaretDownCircleSharp, IoMenu } from "react-icons/io5";
 import { IoMdRefresh } from "react-icons/io";
 import SidebarRight from "./SidebarRight";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleState as toggleBlackScreenState } from "reduxState/slices/blackScreenSlice";
 
 import Link from "next/link";
@@ -16,8 +16,9 @@ function Navbar({ pageName }) {
     const isBellow1024px = useMediaQuery("(max-width : 64em)");
 
     const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(false);
-
     const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
+
+    const user = useSelector((state)=>state.authState);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -54,7 +55,7 @@ function Navbar({ pageName }) {
             </div>
 
             {isBellow1024px ? (
-                <IconButton img="peoples/user.png" className={styles.userIcon} notify={true} onClick={() => setIsRightSidebarOpen(true)}></IconButton>
+                <IconButton img={user?.profilePic?.url ? user.profilePic.url : `${process.env.imgUrlEndpoint}/profile-picture-default_x300PldEOA.png`} className={styles.userIcon} notify={true} onClick={() => setIsRightSidebarOpen(true)} profilePic={true}></IconButton>
             ) : null}
 
             {isBellow1024px ? (

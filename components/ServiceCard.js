@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "scss/components/ServiceCard.module.scss";
 import { toggleState as toggleLoaderState } from "reduxState/slices/loaderSlice";
 import axios from "axios";
-import { isMember } from "../utils/helpers/member";
 import toast from "./Toast";
 import OrderForm from "components/OrderForm";
 
@@ -18,15 +17,8 @@ function ServiceCard({ title, icon, iconClass = "two", fontSize = "fs-30px", id 
     const { isDark } = useSelector((state) => state.themeState);
     const currentUser = useSelector((state)=>state.authState);
 
-    const [member, setMember] = useState(false);
     const [ showPopup, setShowPopup] = useState(false);
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        if (currentUser) {
-            setMember(isMember(currentUser.email));
-        }
-    }, [currentUser]);
 
     const placeOrder = (values) => {
         if (currentUser.token) {
@@ -67,7 +59,7 @@ function ServiceCard({ title, icon, iconClass = "two", fontSize = "fs-30px", id 
             </div>
 
             <IKImage path={icon} className={`${iconClass} ${styles.card_img}`} loading="lazy" lqip={{ active: true }} alt="" />
-            <button className={`bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 fs-10px my-2 rounded ${styles.orderNow}`} type="button" onClick={()=>setShowPopup(true)} disabled={member}>Order Now</button>
+            <button className={`bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 fs-10px my-2 rounded ${styles.orderNow}`} type="button" onClick={()=>setShowPopup(true)} disabled={currentUser.isAdmin}>Order Now</button>
         </div>
         {showPopup && <OrderForm submitHandler={placeOrder} setShowPopup={setShowPopup}/>}
         </Fragment>

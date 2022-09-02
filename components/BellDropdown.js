@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { notificationsState } from "reduxState/slices/notificationsSlice";
 import styles from "scss/components/BellDropdown.module.scss";
-import { isMember } from "utils/helpers/member";
 import Link from "next/link";
 
 const NotificationCard = ({ title, notify, link }) => {
@@ -21,15 +20,13 @@ const NotificationCard = ({ title, notify, link }) => {
 function BellDropdown(props) {
   const { ref } = props;
   const [stateValue, stateSetter] = props.state;
-  const [member, setMember] = useState(false);
   const user = useSelector((state) => state.authState);
   const { notifications } = useSelector((state) => state.notificationsState);
   const dispatch = useDispatch();
 
   useEffect(()=>{
     if (user.id) {
-      setMember(isMember(user.email));
-      const url = isMember(user.email) ? `/api/notifications` : `api/notifications/${user.id}`;
+      const url = user.isAdmin ? `/api/notifications` : `api/notifications/${user.id}`;
       axios.get(url, {
         headers: {
           Authorization: `bearer ${user.token}`,

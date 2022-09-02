@@ -8,7 +8,6 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { isMember } from "../utils/helpers/member";
 import axios from "axios";
 import { auth as authState } from "reduxState/slices/authSlice";
 import Image from "next/image";
@@ -39,13 +38,6 @@ function UserProfile() {
     const [profileOpen, setProfileOpen] = useState(false);
     const [emailNotification, setEmailNotification] = useState(false);
     const user = useSelector((state)=> state.authState);
-    const [member, setMember] = useState(false);
-    
-    useEffect(() => {
-        if (user) {
-            setMember(isMember(user.email));
-        }
-    }, [user]);
 
     useEffect(()=>{
         if(user) setEmailNotification(user.emailNotification);
@@ -55,7 +47,7 @@ function UserProfile() {
             .patch(`/api/users`, {
                 ...values,
                 id: user.id,
-                isMember: member
+                isMember: user.isAdmin
             })
             .then((res) => {
                 dispatch(authState({
@@ -82,7 +74,7 @@ function UserProfile() {
 
     const onSuccess = (data) => {
         axios
-            .post(`/api/users/profilepic`, {...data, isMember: member, id: user.id})
+            .post(`/api/users/profilepic`, {...data, isMember: user.isAdmin, id: user.id})
             .then((res) => {
                 dispatch(authState({
                     ...user,
@@ -141,7 +133,7 @@ function UserProfile() {
                                             <div>
                                                 <label className={styles.label} htmlFor="userEmail">Email</label>
                                                 <Field type="email" className={`${errors.email && touched.email ? 
-                                                    styles['input-error'] : null} ${styles.input}`} id="userEmail" name="email" placeholder="john-bing@gmail.Com" disabled={member}/>
+                                                    styles['input-error'] : null} ${styles.input}`} id="userEmail" name="email" placeholder="john-bing@gmail.Com" disabled={user.isAdmin}/>
                                             </div>
                                             <div>
                                                 <label className={styles.label} htmlFor="userEmail">Username</label>
@@ -230,7 +222,7 @@ function UserProfile() {
                     </div>
                 )}
             </div>
-            {!member && (
+            {!user.isAdmin && (
                 <div className={styles.formContainer}>
                     <div className="flex justify-between items-center">
                         <h3 className={styles.formHeading}>Email Notifications</h3>

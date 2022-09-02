@@ -5,21 +5,18 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { ordersState } from "reduxState/slices/ordersSlice";
 import { useTable } from 'react-table';
-import { isMember } from "../utils/helpers/member";
 import { toggleState as toggleLoaderState } from "reduxState/slices/loaderSlice";
 
 function MyOrders() {
     const dispatch = useDispatch();
     const user = useSelector((state)=> state.authState);
     const { orders } = useSelector((state)=> state.ordersState);
-    const [member, setMember] = useState(false);
 
     useEffect(()=>{
         if (user.id) {
-            setMember(isMember(user.email));
             axios.get(`/api/orders/${user.id}`, {
                 params: {
-                    isMember: member
+                    isMember: user.isAdmin
                 },
                 headers: {
                     Authorization: `bearer ${user.token}`,
@@ -42,29 +39,51 @@ function MyOrders() {
             dispatch(toggleLoaderState(false));
         })
     }
-    
-    const columns = React.useMemo(() => {
-        const col = []
-        if (orders?.length) {
-            for (const prop in orders[0]) {
-                col.push({
-                    Header: prop,
-                    accessor: prop,
-                    ...prop==='status' && member ? {Cell: (cellObj) => {
-                        return (
-                            <select id="lang" onChange={(e) => handleClickEditRow(e, cellObj.row)} value={cellObj.row.values.status}>
-                                <option value="Pending">Pending</option>
-                                <option value="Approved">Approved</option>
-                                <option value="Completed">Completed</option>
-                            </select>
-                        )
-                    }
-                } : {}
-                });
+
+    const columns = React.useMemo(() => [
+        {
+            Header: 'S No',
+            Cell: (cellObj) => cellObj.row.index+1
+        },
+        {
+            Header: 'Username',
+            accessor: 'username',
+        },
+        {
+            Header: 'Email',
+            accessor: 'email',
+        },
+        {
+            Header: 'Phone',
+            accessor: 'phone',
+        },
+        {
+            Header: 'Telegram',
+            accessor: 'telegram',
+        },
+        {
+            Header: 'Service',
+            accessor: 'serviceName'
+        },
+        {
+            Header: 'Details',
+            accessor: 'details',
+        },
+        {
+            Header: 'Status',
+            accessor: 'status',
+            ...user.isAdmin ? {Cell: (cellObj) => {
+                return (
+                    <select id="lang" onChange={(e) => handleClickEditRow(e, cellObj.row)} value={cellObj.row.values.status}>
+                        <option value="Pending">Pending</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                )
             }
-        }
-        return col;
-    }, [orders]);
+            } : {}
+        },
+    ], []);
 
     const {
         getTableProps,
@@ -85,7 +104,7 @@ function MyOrders() {
                             {headerGroup.headers.map((column, index) => (
                             <th
                                 {...column.getHeaderProps()}
-                                className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                                className="px-5 py-3 border-b-2 border-yellow-200 bg-yellow-500 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
                                 key={index}
                             >
                                 {column.render('Header')}
@@ -103,7 +122,7 @@ function MyOrders() {
                                 return (
                                 <td
                                     {...cell.getCellProps()}
-                                    className="px-5 py-5 border-b border-gray-200 bg-white text-sm"
+                                    className="px-5 py-5 border-b border-yellow-200 bg-yellow-100 text-sm"
                                     key={cellIndex}
                                 >
                                     {cell.render('Cell')}

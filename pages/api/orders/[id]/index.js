@@ -5,7 +5,7 @@ import { ObjectId } from "mongodb";
 var getOrders = async (req, res) => {
     const { db } = await connectToDatabase();
     const { id, isMember } = req.query;
-    const condition = isMember ? {} : { user: id };
+    const condition = isMember === 'true' ? {} : {user: id};
     const orders = await db.collection("orders").find(condition).toArray();
     return res.status(200).json(orders);
 };
