@@ -6,7 +6,7 @@ function MetaMaskDetails() {
   return (
     <div className={styles.card}>
       <IKImage
-        path="images/metamask.png"
+        path="images/metamasks.jpeg"
         className={styles.banner}
         loading="lazy"
         lqip={{ active: true }}

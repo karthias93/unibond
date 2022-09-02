@@ -13,7 +13,7 @@ import { dashboardState } from "reduxState/slices/dashboardSlice";
 
 function Dashboard() {
     const isBellow640px = useMediaQuery("(max-width : 40em)");
-    const dashboard = useSelector((state)=>state.dashboardState);
+    const { dashboard } = useSelector((state)=>state.dashboardState);
     const dispatch = useDispatch();
 
     useEffect(()=>{
@@ -21,36 +21,37 @@ function Dashboard() {
             .then(({data}) => {
                 dispatch(dashboardState(data));
             });
-    }, [dispatch])
+    }, [dispatch]);
+
     return (
         <main className={styles.main}>
             <CompanyProgressCard
                 title="Total Development Ongoing"
-                subtitle={dashboard.all.Approved}
-                inWeek={dashboard.lastWeek.Approved}
-                icon="icons/development-icon.png"
+                subtitle={dashboard?.all?.Approved ? dashboard.all.Approved : 0}
+                inWeek={dashboard?.lastWeek?.Approved ? dashboard.lastWeek.Approved : 0}
+                icon="icons/development-icons.png"
                 iconWidth="36%"
                 className={styles.card1}
             />
             <FlipCard
                 frontCard={
-                    <CompanyProgressCard title="Total Audit Ongoing" subtitle={dashboard.all.Audit} inWeek={dashboard.lastWeek.Audit} iconWidth="36%" icon="icons/total-audit-icon.png" />
+                    <CompanyProgressCard title="Total Audit Ongoing" subtitle={dashboard?.all?.Audit ? dashboard.all.Audit : 0} inWeek={dashboard?.lastWeek?.Audit ? dashboard.lastWeek.Audit : 0} iconWidth="36%" icon="icons/total-audit-icons.png" />
                 }
-                backCard={<CompanyProgressCard title="Total Projects Completed" subtitle={dashboard.all.Completed} inWeek={dashboard.lastWeek.Completed} isYellowCard={true} />}
+                backCard={<CompanyProgressCard title="Total Projects Completed" subtitle={dashboard?.all?.Completed ? dashboard.all.Completed : 0} inWeek={dashboard?.lastWeek?.Completed ? dashboard.lastWeek.Completed : 0} isYellowCard={true} />}
             />
 
             <CompanyProgressCard
                 title="Total Marketing Ongoing"
-                subtitle={dashboard.all.Marketing}
-                inWeek={dashboard.lastWeek.Marketing}
-                icon="icons/total-marketing-icon.png"
+                subtitle={dashboard?.all?.Marketing ? dashboard.all.Marketing : 0}
+                inWeek={dashboard?.lastWeek?.Marketing ? dashboard.lastWeek.Marketing : 0}
+                icon="icons/total-marketing-icons.png"
                 iconWidth="24%"
                 className={styles.card3}
             />
             <CompanyProgressCard
                 title="Total Revenue from projects"
-                subtitle={`$ ${dashboard.all.totalRevenue}`}
-                inWeek={`$ ${dashboard.lastWeek.totalRevenue}`}
+                subtitle={`$ ${dashboard?.all?.totalRevenue ? dashboard.all.totalRevenue : 0}`}
+                inWeek={`$ ${dashboard?.lastWeek?.totalRevenue ? dashboard.lastWeek.totalRevenue : 0}`}
                 textCenter={true}
                 subtitleFontSize="fs-30px"
                 className={styles.card4}
@@ -72,11 +73,11 @@ function Dashboard() {
                 </main>
             </div>
             <div className={styles.cards}>
-                <CompanyProgressCard title="Total Projects Completed" subtitle={dashboard.all.Completed} inWeek={dashboard.lastWeek.Completed} isYellowCard={true} />
+                <CompanyProgressCard title="Total Projects Completed" subtitle={dashboard?.all?.Completed ? dashboard.all.Completed : 0} inWeek={dashboard?.lastWeek?.Completed ? dashboard.lastWeek.Completed : 0} isYellowCard={true} />
                 <CompanyProgressCard
                     title="Total Revenue from projects"
-                    subtitle={`$ ${dashboard.all.totalRevenue}`}
-                    inWeek={`$ ${dashboard.lastWeek.totalRevenue}`}
+                    subtitle={`$ ${dashboard?.all?.totalRevenue ? dashboard.all.totalRevenue : 0}`}
+                    inWeek={`$ ${dashboard?.lastWeek?.totalRevenue ? dashboard.lastWeek.totalRevenue : 0}`}
                     textCenter={true}
                     subtitleFontSize="fs-30px"
                 />
@@ -84,7 +85,7 @@ function Dashboard() {
             <div className={styles.ongoingProjectCode}>
                 <h1 className={`fs-22px weight-7 black ${styles.onGoingTitle}`}>Ongoing Project open code.</h1>
                 <div className={styles.projectCode}>
-                    <IKImage path="images/code.png" loading="lazy" lqip={{ active: true }} alt="" />
+                    <IKImage path="images/codes.png" loading="lazy" lqip={{ active: true }} alt="" />
                 </div>
             </div>
 
