@@ -26,31 +26,31 @@ function Dashboard() {
         <main className={styles.main}>
             <CompanyProgressCard
                 title="Total Development Ongoing"
-                subtitle="12"
-                inWeek="25"
+                subtitle={dashboard.all.Approved}
+                inWeek={dashboard.lastWeek.Approved}
                 icon="icons/development-icon.png"
                 iconWidth="36%"
                 className={styles.card1}
             />
             <FlipCard
                 frontCard={
-                    <CompanyProgressCard title="Total Audit Ongoing" subtitle="05" inWeek="8" iconWidth="36%" icon="icons/total-audit-icon.png" />
+                    <CompanyProgressCard title="Total Audit Ongoing" subtitle={dashboard.all.Audit} inWeek={dashboard.lastWeek.Audit} iconWidth="36%" icon="icons/total-audit-icon.png" />
                 }
-                backCard={<CompanyProgressCard title="Total Projects Completed" subtitle="405" inWeek="8" isYellowCard={true} />}
+                backCard={<CompanyProgressCard title="Total Projects Completed" subtitle={dashboard.all.Completed} inWeek={dashboard.lastWeek.Completed} isYellowCard={true} />}
             />
 
             <CompanyProgressCard
                 title="Total Marketing Ongoing"
-                subtitle="13"
-                inWeek="15"
+                subtitle={dashboard.all.Marketing}
+                inWeek={dashboard.lastWeek.Marketing}
                 icon="icons/total-marketing-icon.png"
                 iconWidth="24%"
                 className={styles.card3}
             />
             <CompanyProgressCard
                 title="Total Revenue from projects"
-                subtitle="$ 13,843,659"
-                inWeek="25"
+                subtitle={`$ ${dashboard.all.totalRevenue}`}
+                inWeek={`$ ${dashboard.lastWeek.totalRevenue}`}
                 textCenter={true}
                 subtitleFontSize="fs-30px"
                 className={styles.card4}
@@ -68,15 +68,15 @@ function Dashboard() {
                     <p className={styles.tweetsTitle}>@uni.bond</p>
                 </header>
                 <main>
-                    <TwitterTimelineEmbed sourceType="timeline" screenName="uniBondLab" options={{ height: "100%" }} noHeader={true} />
+                    <TwitterTimelineEmbed sourceType="timeline" screenName="uniBondLab" options={{ height: "400" }} noHeader={true} />
                 </main>
             </div>
             <div className={styles.cards}>
-                <CompanyProgressCard title="Total Projects Completed" subtitle="405" inWeek="31" isYellowCard={true} />
+                <CompanyProgressCard title="Total Projects Completed" subtitle={dashboard.all.Completed} inWeek={dashboard.lastWeek.Completed} isYellowCard={true} />
                 <CompanyProgressCard
                     title="Total Revenue from projects"
-                    subtitle="$ 13,843,659"
-                    inWeek="25"
+                    subtitle={`$ ${dashboard.all.totalRevenue}`}
+                    inWeek={`$ ${dashboard.lastWeek.totalRevenue}`}
                     textCenter={true}
                     subtitleFontSize="fs-30px"
                 />

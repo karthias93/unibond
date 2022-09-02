@@ -17,7 +17,13 @@ const updateOrder = async (req, res) => {
     const updated = await db.collection('orders').updateOne({ _id: new ObjectId(id) }, { $set: order });
     if (!updated) throw `Something went wrong!!`;
     const response = await db.collection('orders').findOne({ _id: new ObjectId(id) });
-    await db.collection("notifications").insert({from: 'admin', to: response.user, message: `Your ${response.serviceName} service request has been ${order.status}`, link: '/order'});
+    await db.collection("notifications").insert({
+        from: 'admin',
+        to: response.user,
+        message: `Your ${response.serviceName} service request has been ${order.status}`,
+        link: '/order',
+        seen: false
+    });
     return res.status(200).end();
 
 }

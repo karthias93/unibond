@@ -6,11 +6,15 @@ import axios from "axios";
 import { ordersState } from "reduxState/slices/ordersSlice";
 import { useTable } from 'react-table';
 import { toggleState as toggleLoaderState } from "reduxState/slices/loaderSlice";
+import RevenuePopup from "./RevenuePopup";
 
 function MyOrders() {
     const dispatch = useDispatch();
     const user = useSelector((state)=> state.authState);
     const { orders } = useSelector((state)=> state.ordersState);
+
+    const [show, setShow] = useState(false);
+    const [selectedRow, setSelectedRow] = useState('');
 
     const getOrders = () => {
         axios.get(`/api/orders/${user.id}`, {
@@ -31,11 +35,9 @@ function MyOrders() {
         }
     }, [user]);
 
-    const handleClickEditRow = (e, row) => {
+    const submitOrder = (fields, id) => {
         dispatch(toggleLoaderState(true));
-        axios.patch(`/api/orders/${row.original._id}`, {
-            status: e.target.value
-        },{
+        axios.patch(`/api/orders/${id}`, fields,{
             headers: {
                 Authorization: `bearer ${user.token}`,
             }
@@ -43,6 +45,27 @@ function MyOrders() {
             dispatch(toggleLoaderState(false));
             getOrders();
         })
+    }
+
+    const submitHandler = (values) => {
+        const fields = {
+            status: 'Completed',
+            revenue: values.revenue
+        }
+        submitOrder(fields, selectedRow);
+        setShow(false);
+    }
+    const handleClickEditRow = (e, row) => {
+        if (e.target.value === 'Completed') {
+            setShow(true);
+            setSelectedRow(row.original._id);
+        } else {
+            const fields = {
+                status: e.target.value
+            }
+            submitOrder(fields, row.original._id);
+        }
+        
     }
 
     const columns = React.useMemo(() => [
@@ -140,6 +163,7 @@ function MyOrders() {
                     </tbody>
                 </table>
             </div>
+            {show && <RevenuePopup setShowPopup={setShow} submitHandler={submitHandler}/>}
         </Fragment>
     );
 }
