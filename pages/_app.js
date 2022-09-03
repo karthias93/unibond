@@ -11,6 +11,7 @@ import BlackScreen from "components/BlackScreen";
 import ReduxStateProvider from "HOC/ReduxStateProvider";
 import { ToastContainer } from "react-toastify";
 import Loader from "components/Loader";
+import VerifyEmail from "components/VerifyEmail";
 
 const toastConfiig = {};
 
@@ -22,6 +23,7 @@ function MyApp({ Component, pageProps }) {
                 <ToastContainer position="top-center" autoClose={2000} newestOnTop={false} pauseOnVisibilityChange closeOnClick pauseOnHover />
                 <SignUpScreen />
                 <LoginScreen />
+                <VerifyEmail />
                 <ChatModal />
                 <BlackScreen />
                 <ReduxStateProvider />

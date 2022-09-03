@@ -7,12 +7,29 @@ import { auth as authState } from "reduxState/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { socket } from "components/ChatModal";
+import { Router, useRouter } from "next/router";
+import { toggleState as toggleLoginScreenState } from "reduxState/slices/loginModalSlice";
+import toast from "components/Toast";
 
 export default function Home({ isConnected }) {
     const dispatch = useDispatch();
     const [members, setMembers] = useState([]);
     const [users, setUsers] = useState([]);
     const { id, isAdmin } = useSelector((state) => state.authState);
+    const { query, push } = useRouter();
+    useEffect(()=>{
+        if (!id && query.code && query.id) {
+            axios.post(`/api/users/verify`, {code: query.code, id: query.id}).then((res)=>{
+                toast({ type: "success", message: 'Account verified successfully!!' });
+                dispatch(toggleLoginScreenState(true));
+                push('/');
+            })
+            .catch(({ request: { responseText } }) => {
+                push('/');
+                toast({ type: "error", message: `${JSON.parse(responseText).message}` })
+            });
+        }
+    }, [query, dispatch, id])
 
     let findUsers = useCallback(() => {
         !isAdmin ? dispatch(usersState({ users: members })) : dispatch(usersState({ users }));

@@ -48,18 +48,21 @@ function Messages({ messages, setMessages, socket, sender }) {
 
     return (
         <>
-            {messages?.map(({ message, sender: messageOwner, id, createdAt }) => (
-                <div className={messageOwner !== sender?.id ? styles.recieved : styles.send} key={id}>
-                    {reciever.profilePic?.url ? 
-                        (<IKImage src={reciever.profilePic.url} alt="" loading="lazy" lqip={{ active: true }} className={styles['profile-pic']}/>) : (
-                            <span className={styles.chatProfilePicture}>
-                                {messageOwner !== sender?.id ? reciever.username?.slice(0, 1).toUpperCase() : sender.username?.slice(0, 1).toUpperCase()}
-                            </span>
-                        )}
-                    <p>{message}</p>
-                    <h6 className="fs-13px weight-4 white lh-1">{formulateDate(createdAt)}</h6>
-                </div>
-            ))}
+            {messages?.map(({ message, sender: messageOwner, id, createdAt }) => {
+                const msgOwner = messageOwner !== sender?.id ? reciever : sender;
+                return (
+                    <div className={messageOwner !== sender?.id ? styles.recieved : styles.send} key={id}>
+                        {msgOwner.profilePic?.url ? 
+                            (<IKImage src={msgOwner.profilePic.url} alt="" loading="lazy" lqip={{ active: true }} className={styles['profile-pic']}/>) : (
+                                <span className={styles.chatProfilePicture}>
+                                    {messageOwner !== sender?.id ? reciever.username?.slice(0, 1).toUpperCase() : sender.username?.slice(0, 1).toUpperCase()}
+                                </span>
+                            )}
+                        <p>{message}</p>
+                        <h6 className="fs-13px weight-4 white lh-1">{formulateDate(createdAt)}</h6>
+                    </div>
+                )
+            })}
         </>
     );
 }

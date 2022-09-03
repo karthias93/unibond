@@ -8,6 +8,7 @@ const initialState = {
     auth: false,
     email: "",
     skill: "",
+    superAdmin: false
 };
 
 export const authSlice = createSlice({
@@ -19,6 +20,7 @@ export const authSlice = createSlice({
             state.id = action.payload.id;
             state.username = action.payload.username;
             state.isAdmin = action.payload.isAdmin;
+            state.superAdmin = action.payload.superAdmin;
             state.auth = action.payload.auth;
             state.email = action.payload.email;
             state.skill = action.payload?.skill;

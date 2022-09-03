@@ -59,7 +59,15 @@ const getDashboardData = async (req, res) => {
             ...lastAuditdata
         }
     }
-    return res.status(200).json({all: finalData, lastWeek: lastFinalData});
+    const recentData = await db.collection("orders").find({status: 'Completed', serviceName: 'Audit'}).sort({ "updatedAt": -1 }).limit(1).toArray();
+    const recent = {};
+    if (recentData.length) {
+        const val = recentData[0];
+        recent.lineofcode = val.lineofcode ? val.lineofcode : 0;
+        recent.bugges = val.bugges ? val.bugges : 0;
+        recent.marketcap = val.marketcap ? val.marketcap : 0;
+    }
+    return res.status(200).json({all: finalData, lastWeek: lastFinalData, recent});
 };
 
 export default apiHandler({

@@ -6,6 +6,7 @@ import OutsideClickDetector from "hooks/OutsideClickDetector";
 import { toggleState as toggleSignUpScreenState } from "reduxState/slices/signUpModalSlice";
 import { toggleState as toggleLoginScreenState } from "reduxState/slices/loginModalSlice";
 import { toggleState as toggleBlackScreenState } from "reduxState/slices/blackScreenSlice";
+import { toggleState as toggleVerifyEmailState } from "reduxState/slices/verifyEmailslice";
 import { auth as authState } from "reduxState/slices/authSlice";
 import axios from "axios";
 import toast from "./Toast";
@@ -44,7 +45,16 @@ function LoginScreen() {
                 setFormValues({ email: "", password: "" });
                 toggleStates();
             })
-            .catch(({ request: { responseText } }) => toast({ type: "error", message: `${JSON.parse(responseText).message}` }));
+            .catch(({request}) => {
+                if (request.status === 401) {
+                    dispatch(toggleLoginScreenState(false));
+                    dispatch(toggleVerifyEmailState({show: true, email: JSON.parse(request.response).email}));
+                } else {
+                    const { responseText } = request;
+                    const message = JSON.parse(responseText).message;
+                    toast({ type: "error", message: message });
+                }
+            });
     };
 
     return (

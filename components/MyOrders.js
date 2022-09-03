@@ -7,6 +7,7 @@ import { ordersState } from "reduxState/slices/ordersSlice";
 import { useTable } from 'react-table';
 import { toggleState as toggleLoaderState } from "reduxState/slices/loaderSlice";
 import RevenuePopup from "./RevenuePopup";
+import ModalPopup from "./ModalPopup";
 
 function MyOrders() {
     const dispatch = useDispatch();
@@ -14,7 +15,8 @@ function MyOrders() {
     const { orders } = useSelector((state)=> state.ordersState);
 
     const [show, setShow] = useState(false);
-    const [selectedRow, setSelectedRow] = useState('');
+    const [showModal, setShowModal] = useState(false);
+    const [selectedRow, setSelectedRow] = useState({});
 
     const getOrders = () => {
         axios.get(`/api/orders/${user.id}`, {
@@ -48,19 +50,28 @@ function MyOrders() {
         })
     }
 
-    const submitHandler = (values) => {
-        const fields = {
-            status: 'Approved',
-            revenue: values.revenue
+    const submitHandler = (values, status = 'Approved') => {
+        let fields = {
+            status,
+            revenue: values.revenue,
+            ...(selectedRow.serviceName === 'Audit') ? { lineofcode: values.lineofcode } : {}
         }
-        submitOrder(fields, selectedRow);
+        if (status === 'Completed') {
+            fields.bugges = values.bugges;
+            fields.marketcap = values.marketcap;
+        }
+        submitOrder(fields, selectedRow._id);
         setShow(false);
+        setShowModal(false);
     }
     const handleClickEditRow = (e, row) => {
         if (e.target.value === 'Approved') {
             setShow(true);
-            setSelectedRow(row.original._id);
-        } else {
+            setSelectedRow(row.original);
+        } else if (e.target.value === 'Completed' && row.original.serviceName === 'Audit') {
+            setShowModal(true);
+            setSelectedRow(row.original);
+        } else{
             const fields = {
                 status: e.target.value
             }
@@ -164,7 +175,8 @@ function MyOrders() {
                     </tbody>
                 </table>
             </div>
-            {show && <RevenuePopup setShowPopup={setShow} submitHandler={submitHandler}/>}
+            {show && <RevenuePopup selectedRow={selectedRow} setShowPopup={setShow} submitHandler={submitHandler}/>}
+            {showModal && <ModalPopup selectedRow={selectedRow} setShowPopup={setShowModal} submitHandler={submitHandler}/>}
         </Fragment>
     );
 }

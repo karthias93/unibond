@@ -41,15 +41,17 @@ function BellDropdown(props) {
   const dispatch = useDispatch();
 
   const getNotifications = () => {
-    const url = user.isAdmin ? `/api/notifications` : `api/notifications/${user.id}`;
-    axios.get(url, {
-        headers: {
-          Authorization: `bearer ${user.token}`,
-        }
-      }).then(({data}) => {
-        dispatch(notificationsState({notifications: data}));
-      });
-}
+    if (!user.isAdmin || user.superAdmin) {
+      const url = user.isAdmin ? `/api/notifications` : `api/notifications/${user.id}`;
+      axios.get(url, {
+          headers: {
+            Authorization: `bearer ${user.token}`,
+          }
+        }).then(({data}) => {
+          dispatch(notificationsState({notifications: data}));
+        });
+    }
+  }
   useEffect(()=>{
     if (user.id) {
       getNotifications();

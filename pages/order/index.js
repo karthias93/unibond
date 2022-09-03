@@ -36,7 +36,7 @@ export default function Order({ isConnected }) {
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("currentUser"));
-        if (!user) {
+        if (!user || (user.isAdmin && !user.superAdmin)) {
           router.push("/")
         }
       }, []);

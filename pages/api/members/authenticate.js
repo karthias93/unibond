@@ -26,6 +26,7 @@ var authenticate = async (req, res) => {
         username: member.username,
         token,
         isAdmin: true,
+        superAdmin: member.email === 'unibond12@gmail.com' ? true : false,
         email: member.email,
         skill: member.skill,
         phone: member.phone,

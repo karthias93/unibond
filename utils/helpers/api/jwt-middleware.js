@@ -20,6 +20,7 @@ function jwtMiddleware(req, res) {
             "/api/services",
             "/api/imagekit/auth",
             "/api/dashboard",
+            "/api/users/verify"
         ],
     });
 

@@ -104,14 +104,9 @@ function Dashboard() {
                 </div>
 
                 <div className={styles.box}>
-                    <p className="fs-14px weight-6 black">Inconsistencies Found : 31</p>
-                    <p className="fs-14px weight-6 black">Errors Rectified : 31</p>
-                    <p className="fs-14px weight-6 black">Code Analysed : 10003</p>
-                </div>
-                <div className={styles.box}>
-                    <p className="fs-14px weight-6 black">KYC done : 35</p>
-                    <p className="fs-14px weight-6 black">Payments Generated : 91</p>
-                    <p className="fs-14px weight-6 black">Time Saved per transaction : 2.22s</p>
+                    <p className="fs-14px weight-6 black">Total Lines of Code : {dashboard?.recent?.lineofcode ? dashboard.recent.lineofcode : 0}</p>
+                    <p className="fs-14px weight-6 black">Total Bugges : {dashboard?.recent?.bugges ? dashboard.recent.bugges : 0}</p>
+                    <p className="fs-14px weight-6 black">Total Market Cap: : {dashboard?.recent?.marketcap ? dashboard.recent.marketcap : 0}</p>
                 </div>
             </div>
         </main>

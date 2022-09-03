@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+var crypto = require("crypto");
 
 import { apiHandler } from "../../../utils/helpers/api";
 import { connectToDatabase } from "lib/mongoose/mongoDB";
@@ -12,7 +13,7 @@ var register = async (req, res) => {
 
     // hash password
     user.hash = bcrypt.hashSync(password, 10);
-
+    user.verifCode = crypto.randomBytes(20).toString('hex');
     await db.collection("users").insertOne(user);
     return res.status(200).json({});
 };

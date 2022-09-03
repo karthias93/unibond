@@ -12,6 +12,7 @@ import servicesSlice from "./slices/servicesSlice";
 import ordersSlice from "./slices/ordersSlice";
 import notificationsSlice from "./slices/notificationsSlice";
 import dashboardSlice from "./slices/dashboardSlice";
+import verifyEmailSlice from "./slices/verifyEmailslice";
 
 export const store = configureStore({
     reducer: {
@@ -27,6 +28,7 @@ export const store = configureStore({
         servicesState: servicesSlice,
         ordersState: ordersSlice,
         notificationsState: notificationsSlice,
-        dashboardState: dashboardSlice
+        dashboardState: dashboardSlice,
+        verifyEmailState: verifyEmailSlice,
     },
 });

@@ -13,7 +13,7 @@ import Link from "next/link";
 
 const UserDropdown = forwardRef((props, ref) => {
     const [stateValue, stateSetter] = props.state;
-    const { auth, id } = useSelector((state) => state.authState);
+    const { auth, id, isAdmin, superAdmin } = useSelector((state) => state.authState);
     const dispatch = useDispatch();
     const router = useRouter();
 
@@ -35,8 +35,7 @@ const UserDropdown = forwardRef((props, ref) => {
         localStorage.removeItem("currentUser");
         dispatch(chatUser({ id: 0, email: "", username: "" }));
         socket.current?.emit("delete-user", id);
-
-        if (window.location.href.includes("chat")) router.replace("/");
+        router.replace("/");
     }, [dispatch, id, router, stateSetter]);
 
     useEffect(() => {
@@ -62,9 +61,10 @@ const UserDropdown = forwardRef((props, ref) => {
                     <Link href="/profile">
                         <button className={`${styles.btn} weight-6`}>Profile</button>
                     </Link>
-                    <Link href="/order">
+                    {(!isAdmin || superAdmin) && <Link href="/order">
                         <button className={`${styles.btn} weight-6`}>Orders</button>
                     </Link>
+                    }
                     <button className={`${styles.btn} weight-6`} onClick={logout}>
                         Logout
                     </button>

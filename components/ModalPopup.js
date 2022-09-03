@@ -2,12 +2,12 @@ import { Formik, Form, Field } from "formik";
 import styles from "scss/components/OrderForm.module.scss";
 import * as Yup from "yup";
 
-const RevenueFormSchema = Yup.object().shape({
-    revenue: Yup.string().required("Revenue is required"),
-    lineofcode: Yup.string()
+const AuditCompletedSchema = Yup.object().shape({
+    bugges: Yup.string().required("Bugges is required"),
+    marketcap: Yup.string().required("Market cap is required")
 });
 
-const RevenuePopup = ({ submitHandler, setShowPopup, selectedRow }) => {
+const ModalPopup = ({ submitHandler, setShowPopup, selectedRow }) => {
     return (
         <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
             <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
@@ -18,12 +18,12 @@ const RevenuePopup = ({ submitHandler, setShowPopup, selectedRow }) => {
                             <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                 <Formik
                                     initialValues={{
-                                        revenue: '',
-                                        lineofcode: ''
+                                        bugges: '',
+                                        marketcap: ''
                                     }}
-                                    validationSchema={RevenueFormSchema}
+                                    validationSchema={AuditCompletedSchema}
                                     onSubmit={(values) => {
-                                        submitHandler(values);
+                                        submitHandler(values, 'Completed');
                                     }}
                                 >
                                     {(formik) => {
@@ -32,15 +32,15 @@ const RevenuePopup = ({ submitHandler, setShowPopup, selectedRow }) => {
                                             <Form id="myform">
                                                 <div className={styles.inputsContainer}>
                                                     <div>
-                                                        <label className={styles.label} htmlFor="revenue">Revenue</label>
-                                                        <Field type="text" name="revenue" className={`${errors.revenue && touched.revenue ? 
-                                                            styles['input-error'] : null} ${styles.input}`} id="revenue" placeholder="1000" />
+                                                        <label className={styles.label} htmlFor="bugges">Total Bugges</label>
+                                                        <Field type="text" name="bugges" className={`${errors.bugges && touched.bugges ? 
+                                                            styles['input-error'] : null} ${styles.input}`} id="bugges" placeholder="" />
                                                     </div>
-                                                    {selectedRow.serviceName === 'Audit' && <div>
-                                                        <label className={styles.label} htmlFor="lineofcode">Total Line of code</label>
-                                                        <Field type="text" name="lineofcode" className={`${errors.lineofcode && touched.lineofcode ? 
-                                                            styles['input-error'] : null} ${styles.input}`} id="lineofcode" placeholder="" />
-                                                    </div>}
+                                                    <div>
+                                                        <label className={styles.label} htmlFor="marketcap">Total Market Cap</label>
+                                                        <Field type="text" name="marketcap" className={`${errors.marketcap && touched.marketcap ? 
+                                                            styles['input-error'] : null} ${styles.input}`} id="marketcap" placeholder="" />
+                                                    </div>
                                                 </div>
                                             </Form>
                                         );
@@ -59,4 +59,4 @@ const RevenuePopup = ({ submitHandler, setShowPopup, selectedRow }) => {
     );
 }
 
-export default RevenuePopup;
+export default ModalPopup;
