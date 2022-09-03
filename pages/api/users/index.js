@@ -7,7 +7,9 @@ const getUsers = async (req, res) => {
     const { db } = await connectToDatabase();
     // return users without hashed passwords in the response
 
-    const users = await db.collection("users").find().toArray();
+    const { skip = 0 } = req.query;
+
+    const users = await db.collection("users").find().skip(parseInt(skip)).limit(10).toArray();
     const response = users.map((x) => omit(x, "hash"));
     return res.status(200).json(response);
 };

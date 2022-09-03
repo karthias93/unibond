@@ -16,7 +16,6 @@ function UserCard({ id, email, name, skill, status, profilePic }) {
 
     const openChatDialog = () => {
         if (auth) {
-            console.log(profilePic)
             dispatch(chatUser({ id, email, username: name, status, skill, profilePic }));
             if (!window.location.href.includes(`chat`)) {
                 dispatch(toggleChatScreenState(true));
