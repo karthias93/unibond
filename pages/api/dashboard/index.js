@@ -59,7 +59,10 @@ const getDashboardData = async (req, res) => {
             ...lastAuditdata
         }
     }
-    const recentData = await db.collection("orders").find({status: 'Completed', serviceName: 'Audit'}).sort({ "updatedAt": -1 }).limit(1).toArray();
+    const recentData = await db.collection("orders").aggregate([
+        { $match: {serviceName: 'Audit'} },
+        { $group: { _id: '', lineofcode: { $sum: { "$toDouble": '$lineofcode' } }, bugges: { $sum: { "$toDouble": '$bugges' } }, marketcap: { $sum: { "$toDouble": '$marketcap' } } } }
+    ]).toArray();
     const recent = {};
     if (recentData.length) {
         const val = recentData[0];
