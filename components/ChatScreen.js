@@ -9,6 +9,7 @@ import toast from "./Toast";
 import { socket } from "components/ChatModal";
 import { useRouter } from 'next/router';
 import { chatUser } from "../reduxState/slices/chatUserSlice";
+import { IKImage } from "imagekitio-react";
 
 function ChatScreen() {
     const [message, setMessage] = useState("");
@@ -33,8 +34,8 @@ function ChatScreen() {
         if (chatUsers.users.length && id) {
             const index = chatUsers.users.findIndex((user)=>user._id===id);
             if (index !== -1) {
-                const { _id, email, username, status, skill } = chatUsers.users[index];
-                dispatch(chatUser({ id: _id, email, username, status, skill }));
+                const { _id, email, username, status, skill, profilePic } = chatUsers.users[index];
+                dispatch(chatUser({ id: _id, email, username, status, skill, profilePic }));
             }
         }
     }, [id, chatUsers.users, dispatch])
@@ -90,10 +91,13 @@ function ChatScreen() {
     return (
         <div className={`${styles.screen} ${styles.chatScreen}`}>
             <div className={styles.userInfo}>
-                <span className={styles.profilePicture}>
-                    {reciever.username?.slice(0, 1).toUpperCase()}
-                    <p className={reciever.status ? styles.online : styles.offline}></p>
-                </span>
+                {reciever.profilePic?.url ? 
+                    (<IKImage src={reciever.profilePic.url} alt="" loading="lazy" lqip={{ active: true }} className={styles['profile-pic']}/>) : (
+                        <span className={styles.profilePicture}>
+                            {reciever.username?.slice(0, 1).toUpperCase()}
+                            <p className={reciever.status ? styles.online : styles.offline}></p>
+                        </span>
+                    )}
                 <div>
                     <h2 className="fs-24px weight-7 black mb-5px lh-1">{toCapital(reciever?.username)}</h2>
                     <p className="fs-15px black weight-4 lh-1">{reciever?.skill || "User"}</p>

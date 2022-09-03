@@ -14,10 +14,15 @@ const getDashboardData = async (req, res) => {
     ]).toArray();
 
     const revenue = await db.collection("orders").aggregate([
-        { $group: { _id: '', total: { $sum: { "$toDouble": '$revenue' } } } }
+        { $group: { _id: '$status', total: { $sum: { "$toDouble": '$revenue' } } } }
     ]).toArray();
     const response = Object.assign(...result.map((val) => ({[val._id]: val.count})));
-    response.totalRevenue = revenue[0].total;
+    if (revenue.length) {
+        const revenueObj = Object.assign(...revenue.map((val) => ({[val._id]: val.total})));
+        response.pendingRevenue = revenueObj.Approved ? revenueObj.Approved : 0;
+        response.totalRevenue = revenueObj.Completed ? revenueObj.Completed : 0;
+    }
+
     let finalData = response;
     if (audit.length) {
         const auditdata = Object.assign(...audit.map((val) => ({[val._id]: val.count})));
@@ -38,10 +43,14 @@ const getDashboardData = async (req, res) => {
 
     const lastRevenue = await db.collection("orders").aggregate([
         { $match: { createdAt: { $gte: new Date() - 7 * 60 * 60 * 24 * 1000 } } },
-        { $group: { _id: '', total: { $sum: { "$toDouble": '$revenue' } } } }
+        { $group: { _id: '$status', total: { $sum: { "$toDouble": '$revenue' } } } }
     ]).toArray();
     const lastResponse = lastResult.length ? Object.assign(...lastResult.map((val) => ({[val._id]: val.count}))) : {};
-    lastResponse.totalRevenue = lastRevenue[0].total;
+    if (lastRevenue.length) {
+        const lasRevenueObj = Object.assign(...lastRevenue.map((val) => ({[val._id]: val.total})));
+        lastResponse.pendingRevenue = lasRevenueObj.Approved ? lasRevenueObj.Approved : 0;
+        lastResponse.totalRevenue = lasRevenueObj.Completed ? lasRevenueObj.Completed : 0;
+    }
     let lastFinalData = lastResponse;
     if (lastAudit.length) {
         const lastAuditdata = Object.assign(...lastAudit.map((val) => ({[val._id]: val.count})));

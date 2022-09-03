@@ -18,6 +18,7 @@ export const chatUserSlice = createSlice({
             state.status = action.payload.status;
             state.username = action.payload.username;
             state.skill = action.payload.skill;
+            state.profilePic = action.payload.profilePic;
         },
     },
 });

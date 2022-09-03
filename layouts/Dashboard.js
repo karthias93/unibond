@@ -49,9 +49,9 @@ function Dashboard() {
                 className={styles.card3}
             />
             <CompanyProgressCard
-                title="Total Revenue from projects"
-                subtitle={`$ ${dashboard?.all?.totalRevenue ? dashboard.all.totalRevenue : 0}`}
-                inWeek={`$ ${dashboard?.lastWeek?.totalRevenue ? dashboard.lastWeek.totalRevenue : 0}`}
+                title="Total Revenue Pending"
+                subtitle={`$ ${dashboard?.all?.pendingRevenue ? dashboard.all.pendingRevenue : 0}`}
+                inWeek={`$ ${dashboard?.lastWeek?.pendingRevenue ? dashboard.lastWeek.pendingRevenue : 0}`}
                 textCenter={true}
                 subtitleFontSize="fs-30px"
                 className={styles.card4}

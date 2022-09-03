@@ -16,7 +16,8 @@ function UserCard({ id, email, name, skill, status, profilePic }) {
 
     const openChatDialog = () => {
         if (auth) {
-            dispatch(chatUser({ id, email, username: name, status, skill }));
+            console.log(profilePic)
+            dispatch(chatUser({ id, email, username: name, status, skill, profilePic }));
             if (!window.location.href.includes(`chat`)) {
                 dispatch(toggleChatScreenState(true));
                 dispatch(toggleBlackScreenState(true));

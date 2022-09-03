@@ -5,6 +5,7 @@ import { formulateDate } from "utils/helpers/date/messageDate";
 import { toggleState as toggleChatScreenState } from "reduxState/slices/chatModalSlice";
 import { toggleState as toggleBlackScreenState } from "reduxState/slices/blackScreenSlice";
 import { chatUser } from "../reduxState/slices/chatUserSlice";
+import { IKImage } from "imagekitio-react";
 
 function Messages({ messages, setMessages, socket, sender }) {
     const [arrivalMessage, setArrivalMessage] = useState(null);
@@ -26,8 +27,8 @@ function Messages({ messages, setMessages, socket, sender }) {
                 if (chatUserRef.current.users.length && from && !chatScreenStateRef.current.show) {
                     const index = chatUserRef.current.users.findIndex((user)=>user._id===from);
                     if (index !== -1) {
-                        const { _id, email, username, status, skill } = chatUserRef.current.users[index];
-                        dispatch(chatUser({ id: _id, email, username, status, skill }));
+                        const { _id, email, username, status, skill, profilePic } = chatUserRef.current.users[index];
+                        dispatch(chatUser({ id: _id, email, username, status, skill, profilePic }));
                         if (!window.location.href.includes(`chat`)) {
                             dispatch(toggleChatScreenState(true));
                             dispatch(toggleBlackScreenState(true));
@@ -49,9 +50,12 @@ function Messages({ messages, setMessages, socket, sender }) {
         <>
             {messages?.map(({ message, sender: messageOwner, id, createdAt }) => (
                 <div className={messageOwner !== sender?.id ? styles.recieved : styles.send} key={id}>
-                    <span className={styles.chatProfilePicture}>
-                        {messageOwner !== sender?.id ? reciever.username?.slice(0, 1).toUpperCase() : sender.username?.slice(0, 1).toUpperCase()}
-                    </span>
+                    {reciever.profilePic?.url ? 
+                        (<IKImage src={reciever.profilePic.url} alt="" loading="lazy" lqip={{ active: true }} className={styles['profile-pic']}/>) : (
+                            <span className={styles.chatProfilePicture}>
+                                {messageOwner !== sender?.id ? reciever.username?.slice(0, 1).toUpperCase() : sender.username?.slice(0, 1).toUpperCase()}
+                            </span>
+                        )}
                     <p>{message}</p>
                     <h6 className="fs-13px weight-4 white lh-1">{formulateDate(createdAt)}</h6>
                 </div>

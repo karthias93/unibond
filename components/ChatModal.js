@@ -12,6 +12,7 @@ import io from "socket.io-client";
 import axios from "axios";
 import toast from "./Toast";
 import { useRouter } from "next/router";
+import { IKImage } from "imagekitio-react";
 
 export let socket;
 
@@ -110,10 +111,13 @@ function ChatModal() {
     return (
         <div className={`${styles.screen} ${showChatModal ? styles.show : ""}`} ref={menuRef}>
             <div className={styles.userInfo}>
-                <span className={styles.profilePicture}>
-                    {reciever.username?.slice(0, 1).toUpperCase()}
-                    <p className={reciever.status ? styles.online : styles.offline}></p>
-                </span>
+                {reciever.profilePic?.url ? 
+                    (<IKImage src={reciever.profilePic.url} alt="" loading="lazy" lqip={{ active: true }} className={styles['profile-pic']}/>) : (
+                        <span className={styles.profilePicture}>
+                            {reciever.username?.slice(0, 1).toUpperCase()}
+                            <p className={reciever.status ? styles.online : styles.offline}></p>
+                        </span>
+                    )}
                 <div>
                     <h2 className="fs-24px weight-7 white mb-5px lh-1">{toCapital(reciever?.username)}</h2>
                     <p className="fs-14px white weight-4 lh-1">{reciever?.skill || "User"}</p>

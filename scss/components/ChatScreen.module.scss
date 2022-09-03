@@ -252,3 +252,9 @@
     @include u.breakpoint(large) {
     }
 }
+
+.profile-pic {
+    border-radius: 0.7vw;
+    width: 42px;
+    height: 42px;
+}

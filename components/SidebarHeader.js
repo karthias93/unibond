@@ -15,6 +15,7 @@ import UserDropdown from "./UserDropdown";
 function SidebarHeader() {
   const { isDark } = useSelector((state) => state.themeState);
   const user = useSelector((state)=> state.authState);
+  const { notifications } = useSelector((state) => state.notificationsState);
   const dispatch = useDispatch();
 
   const themeChanger = () => {
@@ -35,7 +36,7 @@ function SidebarHeader() {
         Button={IconButton}
         Dropdown={BellDropdown}
         buttonProps={{
-          notify: true,
+          notify: notifications?.length ? true : false,
           icon: "icons/BellIcon.svg",
         }}
       />

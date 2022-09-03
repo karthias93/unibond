@@ -50,14 +50,14 @@ function MyOrders() {
 
     const submitHandler = (values) => {
         const fields = {
-            status: 'Completed',
+            status: 'Approved',
             revenue: values.revenue
         }
         submitOrder(fields, selectedRow);
         setShow(false);
     }
     const handleClickEditRow = (e, row) => {
-        if (e.target.value === 'Completed') {
+        if (e.target.value === 'Approved') {
             setShow(true);
             setSelectedRow(row.original._id);
         } else {
