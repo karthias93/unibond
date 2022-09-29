@@ -17,7 +17,7 @@ const MyDocument = () => {
     );
 };
 
-// This function needs to be a String
+// This function needs to be a string
 const themeInitializerScript = `(function() {
 	${setInitialColorMode.toString()}
 	setInitialColorMode();
