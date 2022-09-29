@@ -18,7 +18,7 @@ const toastConfiig = {};
 function MyApp({ Component, pageProps }) {
     return (
         <Provider store={store}>
-            <IKContext publicKey="public_cpIQIqH/QSniDBAqeSdoCHQtcbE=" urlEndpoint={process.env.imgUrlEndpoint} authenticationEndpoint={`${process.env.apiUrl}/api/imagekit/auth`}>
+            <IKContext publicKey="public_RFMgpmved2Nz3zxH+LMI9OyPmr4=" urlEndpoint={process.env.imgUrlEndpoint} authenticationEndpoint={`${process.env.apiUrl}/api/imagekit/auth`}>
                 <IconsSidebar />
                 <ToastContainer position="top-center" autoClose={2000} newestOnTop={false} pauseOnVisibilityChange closeOnClick pauseOnHover />
                 <SignUpScreen />
