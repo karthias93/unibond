@@ -8,7 +8,7 @@ const nextConfig = {
         //"mongodb://localhost:27017/?readPreference=primary&directConnection=true&ssl=false",
         DB_NAME: "UniBond",
         apiUrl:
-            process.env.NODE_ENV === "development"
+            process.env.NODE_ENV !== "production"
                 ? "http://localhost:3000" // development api
                 : "https://uni.bond", // production api
         mailPassword: "jbugbloiyopaathg",
@@ -20,7 +20,7 @@ const nextConfig = {
     },
     publicRuntimeConfig: {
         apiUrl:
-            process.env.NODE_ENV === "development"
+            process.env.NODE_ENV !== "production"
                 ? "http://localhost:3000" // development api
                 : "https://uni.bond/", // production api
     },

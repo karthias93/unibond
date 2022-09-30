@@ -101,11 +101,15 @@ function ChatModal() {
     };
 
     let socketInitializer = async () => {
-        socket.current = io();
-        await fetch(`${process.env.apiUrl}/api/sockets`);
-        socket.current.on("connect", () => {
-            console.log("connected");
-        });
+        try {
+            socket.current = io();
+            await fetch(`${process.env.apiUrl}/api/sockets`);
+            socket.current.on("connect", () => {
+                console.log("connected");
+            });
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     return (
