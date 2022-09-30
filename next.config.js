@@ -10,7 +10,7 @@ const nextConfig = {
         apiUrl:
             process.env.NODE_ENV === "development"
                 ? "http://localhost:3000" // development api
-                : "https://unibond-dashboard.herokuapp.com", // production api
+                : "https://uni.bond", // production api
         mailPassword: "jbugbloiyopaathg",
         mailUsername: "unibond12@gmail.com",
         imgUrlEndpoint: "https://ik.imagekit.io/uihusbecs1/"
@@ -22,7 +22,7 @@ const nextConfig = {
         apiUrl:
             process.env.NODE_ENV === "development"
                 ? "http://localhost:3000" // development api
-                : "https://unibond-dashboard.herokuapp.com/", // production api
+                : "https://uni.bond/", // production api
     },
 };
 
