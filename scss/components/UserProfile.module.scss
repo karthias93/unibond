@@ -6,24 +6,28 @@
     border-bottom: 2px solid var(--common-app-text);
     margin-bottom: 2.5rem;
 }
+
 .formContainer {
     padding: 1.875rem;
     border-radius: 8px;
     border: 1px solid var(--common-app-text);
     margin-bottom: 1.5rem;
 }
+
 .formHeading {
     font-size: 1.5rem;
     color: var(--text-color);
     font-family: Poppins-Medium;
     line-height: 1.2;
 }
+
 .inputsContainer {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    margin-top: 1.875rem;
+    // display: grid;
+    // grid-template-columns: 1fr 1fr;
+    // gap: 2rem;
+    // margin-top: 1.875rem;
 }
+
 .label {
     color: var(--text-color);
     font-family: Poppins;
@@ -31,76 +35,96 @@
     line-height: 1.2;
     margin-bottom: 0.625rem;
 }
+
 .input {
     color: var(--text-color);
-    font-family: Poppins;
-    height: 3.75rem;
+    height: 32px;
     width: 100%;
     outline: none;
-    border: 1px solid var(--app-color);
-    font-size: .875rem;
-    padding: 0 1.25rem;
+    border: 1px solid #ffffff;
+    // font-size: 0.875rem;
+    padding: 0px 15px;
     border-radius: 5px;
+    margin-bottom: 15px;
+    color: #FFF;
 }
+
+.input::placeholder {
+    color: #FFF;
+    opacity: 1;
+}
+
 .formBtn {
-    height: 3.5rem;
-    border-radius: 8px;
-    background-color: #000;
-    padding: 0 2.1rem;
-    font-size: 1rem;
+    height: 22px;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 12px;
     color: #fff;
-    font-family: Poppins;
-    margin-top: 1.875rem;
+    height: 22px;
+    background: linear-gradient(180deg, #000000 0%, #333333 100%);
+    box-shadow: 0px 4px 9px rgb(0 0 0 / 25%);
+    border-radius: 5px;
+    padding: 0px 30px;
 }
+
 label.formBtn {
     padding: 1rem 2.1rem;
     cursor: pointer;
     min-width: 200px;
     text-align: center;
 }
+
 .socilaAccount {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.875rem 2.8125rem;
-    border: 1px solid #ebf9f5;
-    border-radius: 5px;
+    // padding: 1.875rem 2.8125rem;
+    // border: 1px solid #ebf9f5;
     margin-bottom: 1.25rem;
 }
+
 .socialAccountNameContainer {
     display: flex;
     align-items: center;
     width: calc(100% - 7.5rem);
 }
+
 .socialAccountIcon {
-    font-size: 1.5rem;
-    margin-right: 1.5rem;
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
 }
+
 .socialAccountName {
-    font-size: 1rem;
+    // font-size: 1rem;
     color: var(--text-color);
-    font-family: Poppins;
+    // font-family: Poppins;
     line-height: 1.1;
+    font-weight: 600;
 }
+
 .socilaAccountStatus {
-    font-size: 1.125rem;
+    font-size: 14px;
     color: var(--app-color);
-    font-family: Poppins-Medium;
+    // font-family: Poppins-Medium;
     line-height: 1.1;
     cursor: pointer;
 }
+
 .formAngleUP {
     font-size: 1rem;
     color: var(--text-color);
     cursor: pointer;
     margin: 5px;
 }
+
 .formAngleUPClose {
     transform: rotate(180deg);
 }
+
 .formAngleUPOpen {
     transform: rotate(0deg);
 }
+
 .notification {
     display: flex;
     align-items: center;
@@ -110,6 +134,7 @@ label.formBtn {
     border-radius: 5px;
     margin-bottom: 1.275rem;
 }
+
 .notificationHeading {
     font-size: 1.125rem;
     color: var(--text-color);
@@ -117,6 +142,7 @@ label.formBtn {
     line-height: 1.2;
     margin-bottom: 0;
 }
+
 .notificationDetails {
     font-size: 1rem;
     color: #676d7d;
@@ -124,15 +150,18 @@ label.formBtn {
     line-height: 2;
     margin-top: 0;
 }
+
 .switch {
     display: inline-block;
 }
+
 .span {
     position: relative;
     width: 60px;
     height: 34px;
     float: left;
 }
+
 .slider {
     position: absolute;
     top: 0;
@@ -147,15 +176,18 @@ label.formBtn {
     border-radius: 34px;
     cursor: pointer;
 }
+
 .checkbox {
-    -moz-appearance:none;
-    -webkit-appearance:none;
-    -o-appearance:none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -o-appearance: none;
     border: none;
 }
+
 .input:checked+.slider {
     background-color: var(--app-color);
 }
+
 .slider:before {
     position: absolute;
     content: "";
@@ -167,17 +199,86 @@ label.formBtn {
     transition: .4s;
     border-radius: 50%;
 }
+
 .input:checked+.slider:before {
     transform: translateX(26px);
 }
-.input-error {
-    border: 1px solid red;
-}
+
+// .input-error {
+//     border: 1px solid red;
+// }
+
 .image-upload {
     input {
         display: none;
     }
+
+    img {
+        width: 280px;
+        margin: auto;
+        margin-bottom: 15px;
+        box-shadow: 0px 8px 19px -6px rgb(244 187 0 / 50%);
+        border-radius: 30px;
+        height: 280px;
+        object-fit: cover;
+
+    }
+
 }
+
+
+.profileCard {
+    background: linear-gradient(180deg, #525252 0%, #1E1E1E 100%);
+    border-radius: 20px;
+
+}
+
+.socialCard {
+    box-shadow: 0px 19px 44px -11px rgba(244, 187, 0, 0.2);
+    border-radius: 20px;
+    border: 2px solid #F4BB00;
+}
+
+.changePasswordCard {
+    border-radius: 20px;
+    background: linear-gradient(180deg, #F4BB00 0%, #FFA800 100%);
+}
+
+.bgBorder {
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    /* position: fixed; */
+    background: linear-gradient(180deg, #F4BB00 0%, #FFA800 100%);
+    box-shadow: 0px 11px 68px -3px rgba(0, 0, 0, 0.25);
+    width: 206px;
+    height: 100vh;
+    margin: auto;
+    position: absolute;
+    display: flex;
+    justify-content: start;
+}
+
+.borderheight {
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.imgUplodBtn {
+    height: 30px;
+    background: #FFFFFF;
+    box-shadow: 0px 8px 23px rgba(0, 0, 0, 0.21);
+    border-radius: 7px;
+    padding: 5px 15px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
 @media (max-width: 767px) {
     .heading {
         font-size: 12px;
@@ -185,47 +286,58 @@ label.formBtn {
         font-size: 1.67rem;
         margin-bottom: 1.67rem;
     }
+
     .formContainer {
         padding: 2.1rem 1.1rem;
         margin-bottom: 1.67rem;
     }
+
     .formHeading {
         font-size: 1.33rem;
     }
+
     .inputsContainer {
         grid-template-columns: 1fr;
         gap: 1.2rem;
         margin-top: 1.2rem;
     }
+
     .label {
         font-size: 1.2rem;
     }
+
     .input {
         height: 3.75rem;
         font-size: 1rem;
         padding-left: 1.1rem;
     }
+
     .formBtn {
         height: 3.75rem;
         width: 100%;
         margin-top: 2.1rem;
     }
+
     .socilaAccount:not(:last-child) {
         border-bottom: 1px solid #ebf9f5;
     }
+
     .socilaAccount {
         padding: 0 0 1.33rem;
         border: none;
     }
+
     .socialAccountNameContainer {
         display: flex;
         align-items: center;
         width: calc(100% - 5rem);
     }
+
     .socialAccountIcon {
         font-size: 1.5rem;
         margin-right: 0.75rem;
     }
+
     .socialAccountName {
         font-size: 1.2rem;
         max-width: 70%;
@@ -233,30 +345,37 @@ label.formBtn {
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
     .socilaAccountStatus {
         font-size: 1rem;
     }
+
     .notification {
         padding: 0;
         border: none;
     }
+
     .notificationHeading {
         font-size: 1.2rem;
         margin-bottom: 0.5rem;
     }
+
     .notificationDetails {
         font-size: 1rem;
         margin-bottom: 0.7rem;
     }
+
     .slider:before {
         height: 16px;
         width: 16px;
         left: 4px;
         bottom: 2px;
     }
+
     .input:checked+.slider:before {
         transform: translateX(18px);
     }
+
     .span {
         width: 40px;
         height: 20px;
