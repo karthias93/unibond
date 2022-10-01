@@ -31,6 +31,7 @@
         // justify-content: space-between;
         background: #fff;
         border-radius: 20px 20px 0px 0px;
+        justify-content: space-between;
 
         &> :not(:last-child) {
             margin-right: 0.8vw;
@@ -283,4 +284,11 @@
     object-fit: cover;
     margin-top: -40px;
     box-shadow: 0px 8px 19px -6px rgb(244 187 0 / 50%);
+}
+.resizeicon{
+    background: #FFFFFF;
+    box-shadow: 0px 3px 13px rgb(0 0 0 / 25%);
+    border-radius: 7px;
+    padding: 6px;
+    float: right;
 }
