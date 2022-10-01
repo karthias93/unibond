@@ -123,7 +123,7 @@ function ChatModal() {
                         </span>
                     )}
                 <div>
-                    <h2 className="fs-24px weight-7 white mb-5px lh-1">{toCapital(reciever?.username)}</h2>
+                    <h2 className="fs-24px weight-7 mb-5px lh-1">{toCapital(reciever?.username)}</h2>
                     <p className="fs-14px white weight-4 lh-1">{reciever?.skill || "User"}</p>
                 </div>
                 <div
@@ -132,9 +132,9 @@ function ChatModal() {
                         router.push(`/chat/${reciever.id}`);
                     }}
                 >
-                    <icon>
+                    {/* <icon>
                         <IoIosResize size={25} color="white" />
-                    </icon>
+                    </icon> */}
                 </div>
             </div>
             <div className={`${styles.messagesWrapper}`} ref={scrollRef}>

@@ -21,6 +21,7 @@
     line-height: 1.2;
 }
 
+
 .inputsContainer {
     // display: grid;
     // grid-template-columns: 1fr 1fr;
@@ -96,7 +97,7 @@ label.formBtn {
 
 .socialAccountName {
     // font-size: 1rem;
-    color: var(--text-color);
+    // color: var(--text-color);    
     // font-family: Poppins;
     line-height: 1.1;
     font-weight: 600;
@@ -307,19 +308,19 @@ label.formBtn {
     }
 
     .input {
-        height: 3.75rem;
-        font-size: 1rem;
-        padding-left: 1.1rem;
+        // height: 3.75rem;
+        // font-size: 1rem;
+        // padding-left: 1.1rem;
     }
 
     .formBtn {
-        height: 3.75rem;
-        width: 100%;
-        margin-top: 2.1rem;
+        // height: 3.75rem;
+        // width: 100%;
+        // margin-top: 2.1rem;
     }
 
     .socilaAccount:not(:last-child) {
-        border-bottom: 1px solid #ebf9f5;
+        // border-bottom: 1px solid #ebf9f5;
     }
 
     .socilaAccount {
@@ -379,5 +380,21 @@ label.formBtn {
     .span {
         width: 40px;
         height: 20px;
+    }
+}
+
+@media (max-width: 1023px) {
+    .flexWrap {
+       flex-wrap: wrap;
+    }
+    .borderheight {
+        height: auto;
+        position: inherit;
+    }
+    .bgBorder {
+        width: auto;
+        height: auto;
+        margin: auto;
+        position: inherit;
     }
 }

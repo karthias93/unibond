@@ -97,57 +97,57 @@ function UserProfile() {
     return (
         <div className="lg:container mx-auto">
             <div className="mb-6">
-                <h1 className="text-4xl font-bold mb-1">
+                <h1 className="text-4xl font-bold mb-1 black">
                     Hey <span className="yellow">Jamie,</span>
                 </h1>
                 <p className="text-base font-normal black">
                     Welcome back! Take a look at your profile here.
                 </p>
             </div>
-            <div className=" flex gap-4">
-                <div class="w-full md:w-1/2 lg:w-3/5 ">
+            <div className={`${styles.flexWrap} flex gap-4`}>
+                <div class="w-full lg:w-3/5 ">
                     <div className={`${styles.profileCard} p-6 mb-8`}>
                         <div className="text-base font-bold white mb-5">
                             Account Details
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="mb-3">
-                                <div className="text-sm white">
+                                <div className="text-sm white truncate">
                                     First Name :
                                 </div>
-                                <div className="text-base font-bold white">
+                                <div className="text-base font-bold white truncate">
                                     Jamie
                                 </div>
                             </div>
                             <div className="mb-3">
-                                <div className="text-sm white">
+                                <div className="text-sm white truncate">
                                     Second Name :
                                 </div>
-                                <div className="text-base font-bold white">
+                                <div className="text-base font-bold white truncate">
                                     Taylor
                                 </div>
                             </div>
                             <div className="mb-3">
-                                <div className="text-sm white">
+                                <div className="text-sm white truncate">
                                     Email :
                                 </div>
-                                <div className="text-base font-bold white">
+                                <div className="text-base font-bold white truncate">
                                     jamietaylor20@gmail.com
                                 </div>
                             </div>
                             <div className="mb-3">
-                                <div className="text-sm white">
+                                <div className="text-sm white truncate">
                                     Username :
                                 </div>
-                                <div className="text-base font-bold white">
+                                <div className="text-base font-bold white truncate">
                                     jamie20
                                 </div>
                             </div>
                             <div className="mb-3">
-                                <div className="text-sm white">
+                                <div className="text-sm white truncate">
                                     Phone Number:
                                 </div>
-                                <div className="text-base font-bold white">
+                                <div className="text-base font-bold white truncate">
                                     +971 52 340 4989
                                 </div>
                             </div>
@@ -160,28 +160,28 @@ function UserProfile() {
                     <div className="grid grid-cols-2 gap-8">
                         <div>
                             <div className={`${styles.socialCard} px-6 pt-6 pb-4 mb-5`}>
-                                <div className="text-base font-bold  mb-5">
+                                <div className="text-base black font-bold  mb-5">
                                     Social Profiles
                                 </div>
                                 <div>
                                     <div className={styles.socilaAccount}>
-                                        <div className={`${styles.socialAccountNameContainer}`}>
+                                        <div className={`${styles.socialAccountNameContainer} black`}>
                                             <FontAwesomeIcon icon={["fab", "linkedin"]} className={styles.socialAccountIcon} />
-                                            <h4 className={`${styles.socialAccountName} text-sm`}>Linkedin</h4>
+                                            <h4 className={`${styles.socialAccountName} text-sm black`}>Linkedin</h4>
                                         </div>
                                         <div className={styles.socilaAccountStatus}>Connect</div>
                                     </div>
                                     <div className={styles.socilaAccount}>
-                                        <div className={`${styles.socialAccountNameContainer}`}>
+                                        <div className={`${styles.socialAccountNameContainer} black`}>
                                             <FontAwesomeIcon icon={["fab", "twitter"]} className={styles.socialAccountIcon} />
-                                            <h4 className={`${styles.socialAccountName} text-sm`}>Twitter</h4>
+                                            <h4 className={`${styles.socialAccountName} text-sm black`}>Twitter</h4>
                                         </div>
                                         <div className={styles.socilaAccountStatus}>Connect</div>
                                     </div>
                                     <div className={styles.socilaAccount}>
-                                        <div className={`${styles.socialAccountNameContainer}`}>
+                                        <div className={`${styles.socialAccountNameContainer} black`}>
                                             <FontAwesomeIcon icon={["fab", "facebook"]} className={styles.socialAccountIcon} />
-                                            <h4 className={`${styles.socialAccountName} text-sm`}>Facebook</h4>
+                                            <h4 className={`${styles.socialAccountName} text-sm black`}>Facebook</h4>
                                         </div>
                                         <div className={styles.socilaAccountStatus}>Connect</div>
                                     </div>
@@ -233,7 +233,7 @@ function UserProfile() {
                         </div>
                     </div>
                 </div>
-                <div class="w-full md:lg:w-2/5 ">
+                <div class="w-full lg:w-2/5 ">
                     <div className={`${styles.borderheight} xl:ml-16`}>
                         <div className={`${styles.bgBorder}`}></div>
                         <div className={`${styles['image-upload']}`}>

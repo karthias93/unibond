@@ -4,12 +4,12 @@
 
 .screen {
     position: absolute;
-    top: 49%;
+    top: 50%;
     left: 50%;
     width: 90%;
     max-width: u.rem(478);
     z-index: 500;
-    background: linear-gradient(180deg, #f4bb00 0%, #ffa800 100%);
+    background: #fff;
     box-shadow: 0px 8px 241px rgba(0, 0, 0, 0.21);
     border-radius: u.rem(30);
     min-height: 600px;
@@ -28,10 +28,11 @@
         padding: u.rem(20) u.rem(40);
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        border-bottom: 1px solid #f5e2a5;
+        // justify-content: space-between;
+        background: #fff;
+        border-radius: 20px 20px 0px 0px;
 
-        & > :not(:last-child) {
+        &> :not(:last-child) {
             margin-right: 0.8vw;
         }
 
@@ -74,9 +75,13 @@
         display: flex;
         flex-direction: column;
         padding: u.rem(20) u.rem(15);
-        overflow: scroll;
+        overflow: overlay;
         max-height: 450px;
         min-height: 450px;
+        background: linear-gradient(143.91deg, #E9E9E9 0%, #D5D5D5 100%);
+        margin: 0px 30px;
+        border-radius: 20px 20px 0px 0px;
+        overflow-x: hidden;
 
         .send,
         .recieved {
@@ -119,6 +124,7 @@
                 margin: 5px 0 0 7px;
             }
         }
+
         .send {
             margin-left: auto;
             padding-right: u.rem(35);
@@ -130,7 +136,7 @@
             }
 
             p {
-                background-color: rgb(225, 247, 174);
+                background-color: rgb(255 255 255);
             }
 
             h6 {
@@ -145,27 +151,41 @@
         justify-content: space-between;
         align-items: center;
         padding: 1.25rem 1.25rem;
-        border-top: 1px solid #f5e2a5;
-        width: 100%;
+        // border-top: 1px solid #f5e2a5;
+        // width: 100%;
+        background: linear-gradient(90deg, #dddddd 0%, #D5D5D5 100%);
+        border-radius: 0px 0px 20px 20px;
+        border-radius: 0px 0px 20px 20px;
+        margin: -1px 0px 30px 30px;
+        width: calc(100% - 60px);
 
         input {
-            background: transparent;
+            background: #fff;
             border-radius: 0.375rem;
             min-width: 300px;
             bottom: 5px;
-            min-width: 90%;
-            color: white;
+            min-width: 74%;
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 40px;
         }
-
+        input::placeholder {
+            color: #ADADAD;
+            opacity: 1;
+        }
         icon {
             cursor: pointer;
+            padding: 11px 30px;
+            background: linear-gradient(180deg, #FFC300 0%, #FFA800 100%);
+            border-radius: 40px;
         }
     }
 
     ::placeholder {
         /* Chrome, Firefox, Opera, Safari 10.1+ */
         color: white;
-        opacity: 1; /* Firefox */
+        opacity: 1;
+        /* Firefox */
     }
 
     :-ms-input-placeholder {
@@ -194,6 +214,7 @@
         border-radius: u.rem(10);
 
         .messagesWrapper {
+
             .send p,
             .recieved p {
                 max-width: 300px;
@@ -203,6 +224,7 @@
 
     @include u.breakpoint(xsmall) {
         .messagesWrapper {
+
             .send p,
             .recieved p {
                 max-width: 220px;
@@ -234,6 +256,7 @@
         justify-content: flex-start;
         column-gap: 10px;
         border: none;
+
         icon {
             display: none;
         }
@@ -249,12 +272,15 @@
         border-top: 1px solid white;
     }
 
-    @include u.breakpoint(large) {
-    }
+    @include u.breakpoint(large) {}
 }
 
 .profile-pic {
     border-radius: 0.7vw;
-    width: 42px;
-    height: 42px;
+    width: 75px;
+    height: 75px;
+    -o-object-fit: cover;
+    object-fit: cover;
+    margin-top: -40px;
+    box-shadow: 0px 8px 19px -6px rgb(244 187 0 / 50%);
 }
