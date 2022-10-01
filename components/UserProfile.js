@@ -1,10 +1,11 @@
-import React, {Fragment, useEffect, useState} from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import styles from "scss/components/UserProfile.module.scss";
 import toast from "./Toast";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleUp, faCamera } from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
@@ -13,7 +14,8 @@ import { auth as authState } from "reduxState/slices/authSlice";
 import Image from "next/image";
 import { IKImage, IKUpload } from "imagekitio-react";
 
-library.add(fab);   
+// library.add({fab,far});
+library.add(far, fab);
 
 const AccountSettingsSchema = Yup.object().shape({
     firstName: Yup.string(),
@@ -26,9 +28,9 @@ const AccountSettingsSchema = Yup.object().shape({
 const changePasswordSchema = Yup.object({
     oldPassword: Yup.string().required('Password is required'),
     confirmPassword: Yup.string()
-       .oneOf([Yup.ref('newPassword'), null], 'Passwords must match'),
+        .oneOf([Yup.ref('newPassword'), null], 'Passwords must match'),
     newPassword: Yup.string().required('New password is required')
-  });
+});
 
 function UserProfile() {
     const dispatch = useDispatch();
@@ -37,10 +39,10 @@ function UserProfile() {
     const [emailOpen, setEmailOpen] = useState(false);
     const [profileOpen, setProfileOpen] = useState(false);
     const [emailNotification, setEmailNotification] = useState(false);
-    const user = useSelector((state)=> state.authState);
+    const user = useSelector((state) => state.authState);
 
-    useEffect(()=>{
-        if(user) setEmailNotification(user.emailNotification);
+    useEffect(() => {
+        if (user) setEmailNotification(user.emailNotification);
     }, [user])
     const updateUser = (values) => {
         axios
@@ -69,12 +71,12 @@ function UserProfile() {
     const notificationToggle = () => {
         const noti = !emailNotification;
         setEmailNotification(noti);
-        updateUser({emailNotification: noti});
+        updateUser({ emailNotification: noti });
     }
 
     const onSuccess = (data) => {
         axios
-            .post(`/api/users/profilepic`, {...data, isMember: user.isAdmin, id: user.id})
+            .post(`/api/users/profilepic`, { ...data, isMember: user.isAdmin, id: user.id })
             .then((res) => {
                 dispatch(authState({
                     ...user,
@@ -93,12 +95,165 @@ function UserProfile() {
         console.log(err)
     }
     return (
-        <div>
-            <h3 className={styles.heading}>Account Settings</h3>
+        <div className="lg:container mx-auto">
+            <div className="mb-6">
+                <h1 className="text-4xl font-bold mb-1">
+                    Hey <span className="yellow">Jamie,</span>
+                </h1>
+                <p className="text-base font-normal black">
+                    Welcome back! Take a look at your profile here.
+                </p>
+            </div>
+            <div className=" flex gap-4">
+                <div class="w-full md:w-1/2 lg:w-3/5 ">
+                    <div className={`${styles.profileCard} p-6 mb-8`}>
+                        <div className="text-base font-bold white mb-5">
+                            Account Details
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="mb-3">
+                                <div className="text-sm white">
+                                    First Name :
+                                </div>
+                                <div className="text-base font-bold white">
+                                    Jamie
+                                </div>
+                            </div>
+                            <div className="mb-3">
+                                <div className="text-sm white">
+                                    Second Name :
+                                </div>
+                                <div className="text-base font-bold white">
+                                    Taylor
+                                </div>
+                            </div>
+                            <div className="mb-3">
+                                <div className="text-sm white">
+                                    Email :
+                                </div>
+                                <div className="text-base font-bold white">
+                                    jamietaylor20@gmail.com
+                                </div>
+                            </div>
+                            <div className="mb-3">
+                                <div className="text-sm white">
+                                    Username :
+                                </div>
+                                <div className="text-base font-bold white">
+                                    jamie20
+                                </div>
+                            </div>
+                            <div className="mb-3">
+                                <div className="text-sm white">
+                                    Phone Number:
+                                </div>
+                                <div className="text-base font-bold white">
+                                    +971 52 340 4989
+                                </div>
+                            </div>
+                            <div className="w-1/2">
+                                <button className="text-sm white py-2 px-6 border border-white rounded-xl border-solid">Change</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-8">
+                        <div>
+                            <div className={`${styles.socialCard} px-6 pt-6 pb-4 mb-5`}>
+                                <div className="text-base font-bold  mb-5">
+                                    Social Profiles
+                                </div>
+                                <div>
+                                    <div className={styles.socilaAccount}>
+                                        <div className={`${styles.socialAccountNameContainer}`}>
+                                            <FontAwesomeIcon icon={["fab", "linkedin"]} className={styles.socialAccountIcon} />
+                                            <h4 className={`${styles.socialAccountName} text-sm`}>Linkedin</h4>
+                                        </div>
+                                        <div className={styles.socilaAccountStatus}>Connect</div>
+                                    </div>
+                                    <div className={styles.socilaAccount}>
+                                        <div className={`${styles.socialAccountNameContainer}`}>
+                                            <FontAwesomeIcon icon={["fab", "twitter"]} className={styles.socialAccountIcon} />
+                                            <h4 className={`${styles.socialAccountName} text-sm`}>Twitter</h4>
+                                        </div>
+                                        <div className={styles.socilaAccountStatus}>Connect</div>
+                                    </div>
+                                    <div className={styles.socilaAccount}>
+                                        <div className={`${styles.socialAccountNameContainer}`}>
+                                            <FontAwesomeIcon icon={["fab", "facebook"]} className={styles.socialAccountIcon} />
+                                            <h4 className={`${styles.socialAccountName} text-sm`}>Facebook</h4>
+                                        </div>
+                                        <div className={styles.socilaAccountStatus}>Connect</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div className={`${styles.changePasswordCard} px-6 pt-6 pb-4 mb-5`}>
+                                <Fragment>
+                                    <Formik
+                                        initialValues={{
+                                            oldPassword: '',
+                                            newPassword: '',
+                                            confirmPassword: ''
+                                        }}
+                                        validationSchema={changePasswordSchema}
+                                        onSubmit={(values) => {
+                                            delete values.confirmPassword;
+                                            submitHandler(values);
+                                        }}
+                                    >
+                                        {(formik) => {
+                                            const { errors, touched, isValid, dirty } = formik;
+                                            return (
+                                                <Form>
+                                                    <div className={styles.inputsContainer}>
+                                                        <div>
+                                                            {console.log(errors, touched)}
+
+                                                            <Field type="password" className={`${errors.oldPassword && touched.oldPassword ?
+                                                                styles['input-error'] : null} ${styles.input} text-xs`} id="oldPassword" name="oldPassword" placeholder="Old Password" />
+                                                        </div>
+                                                        <div>
+                                                            <Field type="password" className={`${errors.newPassword && touched.newPassword ?
+                                                                styles['input-error'] : null} ${styles.input} text-xs`} id="newPassword" name="newPassword" placeholder="New Password" />
+                                                        </div>
+                                                        <div>
+                                                            <Field type="password" className={`${errors.confirmPassword && touched.confirmPassword ?
+                                                                styles['input-error'] : null} ${styles.input} text-xs`} id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" />
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex justify-end"><button className={`${styles.formBtn} ${!(dirty && isValid) ? "disabled-btn" : ""}`} disabled={!(dirty && isValid)}>Save</button></div>
+                                                </Form>
+                                            );
+                                        }}
+                                    </Formik>
+                                </Fragment>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full md:lg:w-2/5 ">
+                    <div className={`${styles.borderheight} xl:ml-16`}>
+                        <div className={`${styles.bgBorder}`}></div>
+                        <div className={`${styles['image-upload']}`}>
+                            <IKImage path={user?.profilePic?.filePath ? user.profilePic.filePath : '/profile-picture-default_x300PldEOA.png'} alt="" loading="lazy" lqip={{ active: true }} className="relative w-100 mb-3" />
+                            <div className="flex justify-center">
+                                <label htmlFor="file-input" className={`${styles.imgUplodBtn} relative`}>
+                                    Upload Image <FontAwesomeIcon icon={["far", "pencil"]} />
+                                </label>
+                                <IKUpload id="file-input" accept="image/*" onSuccess={onSuccess} onError={onError} />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {/* <h3 className={styles.heading}>Account Settings</h3>
             <div className={styles.formContainer}>
                 <div className="flex justify-between items-center ">
                     <h3 className={styles.formHeading}>Account Settings</h3>
-                    <FontAwesomeIcon icon={faAngleUp} className={`${styles.formAngleUP} ${accountOpen ? styles.formAngleUPClose : styles.formAngleUPOpen}`} onClick={()=> setAccountOpen(!accountOpen)}/>
+                    <FontAwesomeIcon icon={faAngleUp} className={`${styles.formAngleUP} ${accountOpen ? styles.formAngleUPClose : styles.formAngleUPOpen}`} onClick={() => setAccountOpen(!accountOpen)} />
                 </div>
                 {accountOpen && (
                     <Fragment>
@@ -122,27 +277,27 @@ function UserProfile() {
                                         <div className={styles.inputsContainer}>
                                             <div>
                                                 <label className={styles.label} htmlFor="firstName">First Name</label>
-                                                <Field type="text" name="firstName" className={`${errors.firstName && touched.firstName ? 
+                                                <Field type="text" name="firstName" className={`${errors.firstName && touched.firstName ?
                                                     styles['input-error'] : null} ${styles.input}`} id="firstName" placeholder="John" />
                                             </div>
                                             <div>
                                                 <label className={styles.label} htmlFor="lastName">Last Name</label>
-                                                <Field type="text" name="lastName" className={`${errors.lastName && touched.lastName ? 
+                                                <Field type="text" name="lastName" className={`${errors.lastName && touched.lastName ?
                                                     styles['input-error'] : null} ${styles.input}`} id="lastName" placeholder="Bing" />
                                             </div>
                                             <div>
                                                 <label className={styles.label} htmlFor="userEmail">Email</label>
-                                                <Field type="email" className={`${errors.email && touched.email ? 
-                                                    styles['input-error'] : null} ${styles.input}`} id="userEmail" name="email" placeholder="john-bing@gmail.Com" disabled={user.isAdmin}/>
+                                                <Field type="email" className={`${errors.email && touched.email ?
+                                                    styles['input-error'] : null} ${styles.input}`} id="userEmail" name="email" placeholder="john-bing@gmail.Com" disabled={user.isAdmin} />
                                             </div>
                                             <div>
                                                 <label className={styles.label} htmlFor="userEmail">Username</label>
-                                                <Field type="username" className={`${errors.username && touched.username ? 
+                                                <Field type="username" className={`${errors.username && touched.username ?
                                                     styles['input-error'] : null} ${styles.input}`} id="userUsername" name="username" placeholder="john-bing" />
                                             </div>
                                             <div>
                                                 <label className={styles.label} htmlFor="phoneNumber">Phone Number</label>
-                                                <Field type="text" className={`${errors.phone && touched.phone ? 
+                                                <Field type="text" className={`${errors.phone && touched.phone ?
                                                     styles['input-error'] : null} ${styles.input}`} id="phoneNumber" name="phone" placeholder="+1 | 65654246465" />
                                             </div>
                                         </div>
@@ -159,7 +314,7 @@ function UserProfile() {
             <div className={styles.formContainer}>
                 <div className="flex justify-between items-center">
                     <h3 className={styles.formHeading}>Change Password</h3>
-                    <FontAwesomeIcon icon={faAngleUp} className={`${styles.formAngleUP} ${passwordOpen ? styles.formAngleUPClose : styles.formAngleUPOpen}`} onClick={()=> setPasswordOpen(!passwordOpen)}/>
+                    <FontAwesomeIcon icon={faAngleUp} className={`${styles.formAngleUP} ${passwordOpen ? styles.formAngleUPClose : styles.formAngleUPOpen}`} onClick={() => setPasswordOpen(!passwordOpen)} />
                 </div>
                 {passwordOpen && (
                     <Fragment>
@@ -183,17 +338,17 @@ function UserProfile() {
                                             <div>
                                                 {console.log(errors, touched)}
                                                 <label className={styles.label} htmlFor="oldPassword">Old Password</label>
-                                                <Field type="password" className={`${errors.oldPassword && touched.oldPassword ? 
+                                                <Field type="password" className={`${errors.oldPassword && touched.oldPassword ?
                                                     styles['input-error'] : null} ${styles.input}`} id="oldPassword" name="oldPassword" placeholder="***********" />
                                             </div>
                                             <div>
                                                 <label className={styles.label} htmlFor="newPassword">New Password</label>
-                                                <Field type="password" className={`${errors.newPassword && touched.newPassword ? 
+                                                <Field type="password" className={`${errors.newPassword && touched.newPassword ?
                                                     styles['input-error'] : null} ${styles.input}`} id="newPassword" name="newPassword" placeholder="***********" />
                                             </div>
                                             <div>
                                                 <label className={styles.label} htmlFor="confirmPassword">Confirm Password</label>
-                                                <Field type="password" className={`${errors.confirmPassword && touched.confirmPassword ? 
+                                                <Field type="password" className={`${errors.confirmPassword && touched.confirmPassword ?
                                                     styles['input-error'] : null} ${styles.input}`} id="confirmPassword" name="confirmPassword" placeholder="***********" />
                                             </div>
                                         </div>
@@ -208,17 +363,17 @@ function UserProfile() {
             <div className={styles.formContainer}>
                 <div className="flex justify-between items-center">
                     <h3 className={styles.formHeading}>Profile picture</h3>
-                    <FontAwesomeIcon icon={faAngleUp} className={`${styles.formAngleUP} ${profileOpen ? styles.formAngleUPClose : styles.formAngleUPOpen}`} onClick={()=> setProfileOpen(!profileOpen)}/>
+                    <FontAwesomeIcon icon={faAngleUp} className={`${styles.formAngleUP} ${profileOpen ? styles.formAngleUPClose : styles.formAngleUPOpen}`} onClick={() => setProfileOpen(!profileOpen)} />
                 </div>
                 {profileOpen && (
                     <div className={`mt-10 ${styles['image-upload']}`}>
-                        <IKImage path={user?.profilePic?.filePath ? user.profilePic.filePath : '/profile-picture-default_x300PldEOA.png'} alt="" loading="lazy" lqip={{ active: true }} width={200} height={200}/>
-                            <div className="flex justify-start">
-                                <label htmlFor="file-input" className={styles.formBtn}>
-                                    Upload Image
-                                </label>
-                                <IKUpload id="file-input" accept="image/*" onSuccess={onSuccess} onError={onError}/>
-                            </div>
+                        <IKImage path={user?.profilePic?.filePath ? user.profilePic.filePath : '/profile-picture-default_x300PldEOA.png'} alt="" loading="lazy" lqip={{ active: true }} width={200} height={200} />
+                        <div className="flex justify-start">
+                            <label htmlFor="file-input" className={styles.formBtn}>
+                                Upload Image
+                            </label>
+                            <IKUpload id="file-input" accept="image/*" onSuccess={onSuccess} onError={onError} />
+                        </div>
                     </div>
                 )}
             </div>
@@ -226,7 +381,7 @@ function UserProfile() {
                 <div className={styles.formContainer}>
                     <div className="flex justify-between items-center">
                         <h3 className={styles.formHeading}>Email Notifications</h3>
-                        <FontAwesomeIcon icon={faAngleUp} className={`${styles.formAngleUP} ${emailOpen ? styles.formAngleUPClose : styles.formAngleUPOpen}`} onClick={()=> setEmailOpen(!emailOpen)}/>
+                        <FontAwesomeIcon icon={faAngleUp} className={`${styles.formAngleUP} ${emailOpen ? styles.formAngleUPClose : styles.formAngleUPOpen}`} onClick={() => setEmailOpen(!emailOpen)} />
                     </div>
                     {emailOpen && (
                         <div className="mt-10">
@@ -266,12 +421,12 @@ function UserProfile() {
                 </div>
                 <div className={styles.socilaAccount}>
                     <div className={styles.socialAccountNameContainer}>
-                        <FontAwesomeIcon icon={["fab", "facebook"]} className={styles.socialAccountIcon}/>
+                        <FontAwesomeIcon icon={["fab", "facebook"]} className={styles.socialAccountIcon} />
                         <h4 className={styles.socialAccountName}>Facebook</h4>
                     </div>
                     <div className={styles.socilaAccountStatus}>Connect</div>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }
