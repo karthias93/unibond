@@ -52,14 +52,14 @@ function Messages({ messages, setMessages, socket, sender }) {
                 const msgOwner = messageOwner !== sender?.id ? reciever : sender;
                 return (
                     <div className={messageOwner !== sender?.id ? styles.recieved : styles.send} key={id}>
-                        {msgOwner.profilePic?.url ? 
+                        {/* {msgOwner.profilePic?.url ? 
                             (<IKImage src={msgOwner.profilePic.url} alt="" loading="lazy" lqip={{ active: true }} className={styles['profile-pic']}/>) : (
                                 <span className={styles.chatProfilePicture}>
                                     {messageOwner !== sender?.id ? reciever.username?.slice(0, 1).toUpperCase() : sender.username?.slice(0, 1).toUpperCase()}
                                 </span>
-                            )}
+                            )} */}
                         <p>{message}</p>
-                        <h6 className="fs-13px weight-4 white lh-1">{formulateDate(createdAt)}</h6>
+                        <h6 className="fs-12px  weight-4 text-black lh-1">{formulateDate(createdAt)}</h6>
                     </div>
                 )
             })}

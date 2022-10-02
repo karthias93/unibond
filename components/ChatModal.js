@@ -127,7 +127,7 @@ function ChatModal() {
 
                     <div className="ml-3">
                         <h2 className="fs-24px weight-7 mb-5px lh-1">{toCapital(reciever?.username)}</h2>
-                        <p className="fs-14px black weight-4 lh-1">{reciever?.skill || "User"}</p>
+                        <p className="fs-14px text-black weight-4 lh-1">{reciever?.skill || "User"}</p>
                     </div>
                 </div>
                 <div
@@ -147,8 +147,8 @@ function ChatModal() {
             </div>
             <div className={styles.chatInput}>
                 <input
-                    placeholder="Enter Message"
-                    className="unchange-gray fs-16px weight-5 black"
+                    placeholder="Type A Message..."
+                    className="unchange-gray fs-14px weight-5 black"
                     value={message}
                     onKeyPress={sendMessage}
                     onChange={(e) => setMessage(e.target.value)}

@@ -30,9 +30,9 @@ function ChatScreen() {
         };
     }, [sender.token]);
 
-    useEffect(()=> {
+    useEffect(() => {
         if (chatUsers.users.length && id) {
-            const index = chatUsers.users.findIndex((user)=>user._id===id);
+            const index = chatUsers.users.findIndex((user) => user._id === id);
             if (index !== -1) {
                 const { _id, email, username, status, skill, profilePic } = chatUsers.users[index];
                 dispatch(chatUser({ id: _id, email, username, status, skill, profilePic }));
@@ -90,34 +90,38 @@ function ChatScreen() {
 
     return (
         <div className={`${styles.screen} ${styles.chatScreen}`}>
-            <div className={styles.userInfo}>
-                {reciever.profilePic?.url ? 
-                    (<IKImage src={reciever.profilePic.url} alt="" loading="lazy" lqip={{ active: true }} className={styles['profile-pic']}/>) : (
-                        <span className={styles.profilePicture}>
-                            {reciever.username?.slice(0, 1).toUpperCase()}
-                            <p className={reciever.status ? styles.online : styles.offline}></p>
-                        </span>
-                    )}
-                <div>
-                    <h2 className="fs-24px weight-7 black mb-5px lh-1">{toCapital(reciever?.username)}</h2>
-                    <p className="fs-15px black weight-4 lh-1">{reciever?.skill || "User"}</p>
+            <div className="flex">
+                <div className={styles.userInfo}>
+                    {reciever.profilePic?.url ?
+                        (<IKImage src={reciever.profilePic.url} alt="" loading="lazy" lqip={{ active: true }} className={styles['profile-pic']} />) : (
+                            <span className={styles.profilePicture}>
+                                {reciever.username?.slice(0, 1).toUpperCase()}
+                                <p className={reciever.status ? styles.online : styles.offline}></p>
+                            </span>
+                        )}
+                    <div>
+                        <h2 className="fs-24px weight-7 black mb-5px lh-1">{toCapital(reciever?.username)}</h2>
+                        <p className="fs-15px black weight-4 lh-1">{reciever?.skill || "User"}</p>
+                    </div>
                 </div>
-            </div>
-            <div className={`${styles.messagesWrapper}`} ref={scrollRef}>
-                <Messages messages={messages} socket={socket} setMessages={setMessages} sender={sender} />
-            </div>
-            <div className={styles.chatInput}>
-                <input
-                    placeholder="Enter Message"
-                    className="fs-16px black weight-5"
-                    value={message}
-                    onKeyPress={sendMessage}
-                    onChange={(e) => setMessage(e.target.value)}
-                ></input>
+                <div className="w-9/12">
+                    <div className={`${styles.messagesWrapper}`} ref={scrollRef}>
+                        <Messages messages={messages} socket={socket} setMessages={setMessages} sender={sender} />
+                    </div>
+                    <div className={styles.chatInput}>
+                        <input
+                            placeholder="Enter Message"
+                            className="fs-16px black weight-5"
+                            value={message}
+                            onKeyPress={sendMessage}
+                            onChange={(e) => setMessage(e.target.value)}
+                        ></input>
 
-                <icon onClick={(e) => sendMessage(e, "click")}>
-                    <IoMdSend color="white" size={22} className="ml-auto" />
-                </icon>
+                        <icon onClick={(e) => sendMessage(e, "click")}>
+                            <IoMdSend color="white" size={22} className="ml-auto" />
+                        </icon>
+                    </div>
+                </div>
             </div>
         </div>
     );
