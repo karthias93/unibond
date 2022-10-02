@@ -11,7 +11,7 @@ const nextConfig = {
             process.env.NODE_ENV !== "production"
                 ? "http://localhost:3000" // development api
                 : "https://uni.bond", // production api
-        mailPassword: "jbugbloiyopaathg",
+        mailPassword: "jhvtxmiqrltufxtj",
         mailUsername: "unibond12@gmail.com",
         imgUrlEndpoint: "https://ik.imagekit.io/uihusbecs1/"
     },
