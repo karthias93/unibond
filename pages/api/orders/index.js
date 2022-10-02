@@ -30,7 +30,7 @@ var insertOrder = async (req, res) => {
         text: `${order.username} have placed order for ${order.serviceName} Kindly approve it if user have paid or contact for payment.`,
         html: `<div>${order.username} have placed order for ${order.serviceName} Kindly approve it if user have paid or contact for payment.</div>`
     };
-    /*transporter.sendMail(mailData, function (err, info) {
+    transporter.sendMail(mailData, function (err, info) {
         if(err) {
             console.log(err)
             throw 'Something went wrong';
@@ -38,8 +38,7 @@ var insertOrder = async (req, res) => {
             console.log(info)
             res.status(201).end();
         }
-    });*/
-    res.status(201).end();
+    });
 };
 
 export default apiHandler({

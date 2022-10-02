@@ -55,6 +55,19 @@
     opacity: 1;
 }
 
+.account-form {
+    .input {
+        width: 90%;
+        margin-bottom: 0;
+        margin-top: 5px;
+    }
+    
+    .input::placeholder {
+        color: #A9A9A9;
+        font-size: 0.875rem;
+    }
+}
+
 .formBtn {
     height: 22px;
     border-radius: 5px;

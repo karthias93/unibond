@@ -3,7 +3,7 @@ import styles from "scss/components/UserProfile.module.scss";
 import toast from "./Toast";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleUp, faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -39,7 +39,9 @@ function UserProfile() {
     const [emailOpen, setEmailOpen] = useState(false);
     const [profileOpen, setProfileOpen] = useState(false);
     const [emailNotification, setEmailNotification] = useState(false);
+    const [accountEdit, setAccountEdit] = useState(false);
     const user = useSelector((state) => state.authState);
+    
 
     useEffect(() => {
         if (user) setEmailNotification(user.emailNotification);
@@ -110,52 +112,73 @@ function UserProfile() {
                         <div className="text-base font-bold white mb-5">
                             Account Details
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="mb-3">
-                                <div className="text-sm white truncate">
-                                    First Name :
-                                </div>
-                                <div className="text-base font-bold white truncate">
-                                    Jamie
-                                </div>
-                            </div>
-                            <div className="mb-3">
-                                <div className="text-sm white truncate">
-                                    Second Name :
-                                </div>
-                                <div className="text-base font-bold white truncate">
-                                    Taylor
-                                </div>
-                            </div>
-                            <div className="mb-3">
-                                <div className="text-sm white truncate">
-                                    Email :
-                                </div>
-                                <div className="text-base font-bold white truncate">
-                                    jamietaylor20@gmail.com
-                                </div>
-                            </div>
-                            <div className="mb-3">
-                                <div className="text-sm white truncate">
-                                    Username :
-                                </div>
-                                <div className="text-base font-bold white truncate">
-                                    jamie20
-                                </div>
-                            </div>
-                            <div className="mb-3">
-                                <div className="text-sm white truncate">
-                                    Phone Number:
-                                </div>
-                                <div className="text-base font-bold white truncate">
-                                    +971 52 340 4989
-                                </div>
-                            </div>
-                            <div className="w-1/2">
-                                <button className="text-sm white py-2 px-6 border border-white rounded-xl border-solid">Change</button>
-                            </div>
-
-                        </div>
+                        <Formik
+                            initialValues={{
+                                firstName: user?.firstName ? user.firstName : '',
+                                lastName: user?.lastName ? user.lastName : '',
+                                username: user?.username ? user.username : '',
+                                email: user?.email ? user.email : '',
+                                phone: user?.phone ? user.phone : ''
+                            }}
+                            validationSchema={AccountSettingsSchema}
+                            onSubmit={(values) => {
+                                submitHandler(values);
+                            }}
+                            enableReinitialize={true}
+                        >
+                            {(formik) => {
+                                const { errors, touched, isValid, dirty } = formik;
+                                return (
+                                    <Form>
+                                        <div className={`grid grid-cols-2 gap-4 ${styles['account-form']}`}>
+                                            <div className="mb-3">
+                                                <label className="text-sm white truncate" htmlFor="firstName">First Name :</label>
+                                                {accountEdit && <Field type="text" name="firstName" className={`${errors.firstName && touched.firstName ?
+                                                    styles['input-error'] : null} ${styles.input}`} id="firstName" placeholder="John" />}
+                                                {!accountEdit && <div className="text-base font-bold white truncate">
+                                                    {user?.firstName}
+                                                </div>}
+                                            </div>
+                                            <div className="mb-3">
+                                                <label className="text-base white truncate" htmlFor="lastName">Second Name :</label>
+                                                {accountEdit && <Field type="text" name="lastName" className={`${errors.lastName && touched.lastName ?
+                                                    styles['input-error'] : null} ${styles.input}`} id="lastName" placeholder="Bing" />}
+                                                {!accountEdit && <div className="text-base font-bold white truncate">
+                                                    {user?.lastName}
+                                                </div>}
+                                            </div>
+                                            <div className="mb-3">
+                                                <label className="text-sm white truncate" htmlFor="userEmail">Email :</label>
+                                                {accountEdit && <Field type="email" className={`${errors.email && touched.email ?
+                                                    styles['input-error'] : null} ${styles.input}`} id="userEmail" name="email" placeholder="john-bing@gmail.Com" disabled={user.isAdmin} />}
+                                                 {!accountEdit &&<div className="text-base font-bold white truncate">
+                                                    {user?.email}
+                                                </div>}
+                                            </div>
+                                            <div className="mb-3">
+                                            <label className="text-sm white truncate" htmlFor="userName">Username :</label>
+                                                {accountEdit && <Field type="text" className={`${errors.username && touched.username ?
+                                                    styles['input-error'] : null} ${styles.input}`} id="userUsername" name="username" placeholder="john-bing" />}
+                                                {!accountEdit && <div className="text-base font-bold white truncate">
+                                                    {user?.username}
+                                                </div>}
+                                            </div>
+                                            <div className="mb-3">
+                                                <label className="text-sm white truncate" htmlFor="phoneNumber">Phone Number:</label>
+                                                {accountEdit && <Field type="text" className={`${errors.phone && touched.phone ?
+                                                    styles['input-error'] : null} ${styles.input}`} id="phoneNumber" name="phone" placeholder="+1 | 65654246465" />}
+                                                {!accountEdit && <div className="text-base font-bold white truncate">
+                                                    {user?.phone}
+                                                </div>}
+                                            </div>
+                                            <div className="w-1/2 mb-3 flex">
+                                                <button className="text-sm white py-2 px-6 border border-white rounded-xl border-solid self-end" onClick={()=>setAccountEdit(!accountEdit)}>{accountEdit ? 'Save' : 'Change'}</button>
+                                            </div>
+                                        </div>
+                                    </Form>
+                                );
+                            }}
+                        </Formik>
                     </div>
                     <div className="grid grid-cols-2 gap-8">
                         <div>
@@ -239,8 +262,8 @@ function UserProfile() {
                         <div className={`${styles['image-upload']}`}>
                             <IKImage path={user?.profilePic?.filePath ? user.profilePic.filePath : '/profile-picture-default_x300PldEOA.png'} alt="" loading="lazy" lqip={{ active: true }} className="relative w-100 mb-3" />
                             <div className="flex justify-center">
-                                <label htmlFor="file-input" className={`${styles.imgUplodBtn} relative`}>
-                                    Upload Image <FontAwesomeIcon icon={["far", "pencil"]} />
+                                <label htmlFor="file-input" className={`${styles.imgUplodBtn} relative cursor-pointer`}>
+                                    {user?.profilePic?.filePath ? 'Edit Profile Picture ' : 'Upload Image '}<FontAwesomeIcon icon={faPencil} />
                                 </label>
                                 <IKUpload id="file-input" accept="image/*" onSuccess={onSuccess} onError={onError} />
                             </div>
