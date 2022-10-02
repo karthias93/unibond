@@ -313,6 +313,9 @@
         // border-top: 1px solid white;
         margin: -1px 0px 0px 0px;
         width: calc(100% - 0px);
+        input{
+            min-width: 86%;
+        }
     }
 
     @include u.breakpoint(large) {}
