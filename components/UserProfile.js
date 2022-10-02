@@ -105,7 +105,7 @@ function UserProfile() {
                 </p>
             </div>
             <div className=" flex gap-4">
-                <div class="w-full md:w-1/2 lg:w-3/5 ">
+                <div className="w-full md:w-1/2 lg:w-3/5 ">
                     <div className={`${styles.profileCard} p-6 mb-8`}>
                         <div className="text-base font-bold white mb-5">
                             Account Details
@@ -233,7 +233,7 @@ function UserProfile() {
                         </div>
                     </div>
                 </div>
-                <div class="w-full md:lg:w-2/5 ">
+                <div className="w-full md:lg:w-2/5 ">
                     <div className={`${styles.borderheight} xl:ml-16`}>
                         <div className={`${styles.bgBorder}`}></div>
                         <div className={`${styles['image-upload']}`}>
