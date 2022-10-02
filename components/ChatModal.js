@@ -115,27 +115,32 @@ function ChatModal() {
     return (
         <div className={`${styles.screen} ${showChatModal ? styles.show : ""}`} ref={menuRef}>
             <div className={styles.userInfo}>
-                {reciever.profilePic?.url ? 
-                    (<IKImage src={reciever.profilePic.url} alt="" loading="lazy" lqip={{ active: true }} className={styles['profile-pic']}/>) : (
-                        <span className={styles.profilePicture}>
-                            {reciever.username?.slice(0, 1).toUpperCase()}
-                            <p className={reciever.status ? styles.online : styles.offline}></p>
-                        </span>
-                    )}
-                <div>
-                    <h2 className="fs-24px weight-7 white mb-5px lh-1">{toCapital(reciever?.username)}</h2>
-                    <p className="fs-14px white weight-4 lh-1">{reciever?.skill || "User"}</p>
+                <div className="flex ">
+                    {reciever.profilePic?.url ?
+                        (<IKImage src={reciever.profilePic.url} alt="" loading="lazy" lqip={{ active: true }} className={styles['profile-pic']} />) : (
+                            <span className={styles.profilePicture}>
+                                {reciever.username?.slice(0, 1).toUpperCase()}
+                                <p className={reciever.status ? styles.online : styles.offline}></p>
+                            </span>
+                        )}
+
+
+                    <div className="ml-3">
+                        <h2 className="fs-24px weight-7 mb-5px lh-1">{toCapital(reciever?.username)}</h2>
+                        <p className="fs-14px black weight-4 lh-1">{reciever?.skill || "User"}</p>
+                    </div>
                 </div>
                 <div
                     onClick={() => {
                         dispatch(toggleChatScreenState(false));
                         router.push(`/chat/${reciever.id}`);
                     }}
-                >
+                    className={styles.resizeicon}>
                     <icon>
-                        <IoIosResize size={25} color="white" />
+                        <IoIosResize size={22} color="black" />
                     </icon>
                 </div>
+
             </div>
             <div className={`${styles.messagesWrapper}`} ref={scrollRef}>
                 <Messages messages={messages} socket={socket} setMessages={setMessages} sender={sender} />

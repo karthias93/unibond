@@ -29,10 +29,10 @@
 
   & > :not(:last-child) {
     // margin-bottom: u.rem(22);
-    margin-bottom: 20%;
+    margin-bottom: 15px;
 
     @include u.breakpoint(twoxLarge) {
-      margin-bottom: 20%;
+      margin-bottom: 15px;
     }
   }
 

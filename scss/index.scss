@@ -47,3 +47,27 @@ $toastify-toast-width: 360px;
     transform: -ms-translate(-50%, -50%);
     z-index: 999;
 }
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #D9D9D9;
+    border-radius: 15px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #9e9e9e;
+    border-radius: 15px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #5C5C5C; 
+  }
