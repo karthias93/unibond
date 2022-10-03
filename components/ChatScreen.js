@@ -94,10 +94,9 @@ function ChatScreen() {
                 <div className={styles.userInfo}>
                     {reciever.profilePic?.url ?
                         (<IKImage src={reciever.profilePic.url} alt="" loading="lazy" lqip={{ active: true }} className={styles['profile-pic']} />) : (
-                            <span className={styles.profilePicture}>
+                            <div className={`${styles.profilePicture} ${styles.chatFull}`}>
                                 {reciever.username?.slice(0, 1).toUpperCase()}
-                                <p className={reciever.status ? styles.online : styles.offline}></p>
-                            </span>
+                            </div>
                         )}
                     <div>
                         <h2 className="fs-30px weight-7 black mb-5px lh-1">{toCapital(reciever?.username)}</h2>
