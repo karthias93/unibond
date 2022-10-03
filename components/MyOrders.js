@@ -83,11 +83,19 @@ function MyOrders() {
     const columns = React.useMemo(() => [
         {
             Header: 'S No',
-            Cell: (cellObj) => cellObj.row.index + 1
+            Cell: (cellObj) => <span className="fs-18px">{cellObj.row.index + 1}.</span>
         },
         {
             Header: 'Username',
             accessor: 'username',
+            Cell: (cellObj) => {
+                return (
+                    <Fragment>
+                        <div className="fs-18px">{cellObj.row.values.username}</div>
+                        <div className="text-[#1e1e1e] weight-4 fs-12px">{cellObj.row.values.email}</div>
+                    </Fragment>
+                )
+            }
         },
         {
             Header: 'Email',
@@ -103,11 +111,13 @@ function MyOrders() {
         },
         {
             Header: 'Service',
-            accessor: 'serviceName'
+            accessor: 'serviceName',
+            Cell: (cellObj) => <span className="weight-7">{cellObj.row.values.serviceName}</span>
         },
         {
             Header: 'Details',
             accessor: 'details',
+            Cell: (cellObj) => <span className="weight-7">{cellObj.row.values.details}</span>
         },
         {
             Header: 'Status',
@@ -115,7 +125,7 @@ function MyOrders() {
             ...(user.isAdmin) ? {
                 Cell: (cellObj) => {
                     return (
-                        <select id="lang" onChange={(e) => handleClickEditRow(e, cellObj.row)} value={cellObj.row.values.status} className="p-2 rounded">
+                        <select id="lang" onChange={(e) => handleClickEditRow(e, cellObj.row)} value={cellObj.row.values.status} className={`p-2 rounded weight-7 ${styles[cellObj.row.values.status.toLowerCase()]}`}>
                             <option value="Pending">Pending</option>
                             <option value="Approved">Approved</option>
                             <option value="Completed">Completed</option>
@@ -126,13 +136,15 @@ function MyOrders() {
         },
     ], [user]);
 
+    const initialState = { hiddenColumns: ['email'] };
+
     const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
         rows,
         prepareRow,
-    } = useTable({ columns, data: orders })
+    } = useTable({ columns, data: orders, initialState })
 
     return (
         <Fragment>
