@@ -7,7 +7,7 @@ import { toggleState as toggleChatScreenState } from "reduxState/slices/chatModa
 import { toggleState as toggleBlackScreenState } from "reduxState/slices/blackScreenSlice";
 import { chatUser } from "../reduxState/slices/chatUserSlice";
 import { toCapital } from "../utils/helpers/toCapital";
-import { IoIosResize, IoMdSend } from "react-icons/io";
+import { IoIosResize, IoMdSend, IoMdClose } from "react-icons/io";
 import io from "socket.io-client";
 import axios from "axios";
 import toast from "./Toast";
@@ -130,17 +130,28 @@ function ChatModal() {
                         <p className="fs-14px text-black weight-4 lh-1">{reciever?.skill || "User"}</p>
                     </div>
                 </div>
-                <div
-                    onClick={() => {
-                        dispatch(toggleChatScreenState(false));
-                        router.push(`/chat/${reciever.id}`);
-                    }}
-                    className={styles.resizeicon}>
-                    <icon>
-                        <IoIosResize size={22} color="black" />
-                    </icon>
-                </div>
+                <div>
+                    <div
+                        onClick={() => {
+                            dispatch(toggleChatScreenState(false));
+                        }}
+                        className={`${styles.resizeicon} ml-4`}>
+                        <icon>
+                            <IoMdClose size={22} color="black" />
+                        </icon>
+                    </div>
+                    <div
+                        onClick={() => {
+                            dispatch(toggleChatScreenState(false));
+                            router.push(`/chat/${reciever.id}`);
+                        }}
+                        className={styles.resizeicon}>
+                        <icon>
+                            <IoIosResize size={22} color="black" />
+                        </icon>
+                    </div>
 
+                </div>
             </div>
             <div className={`${styles.messagesWrapper}`} ref={scrollRef}>
                 <Messages messages={messages} socket={socket} setMessages={setMessages} sender={sender} />

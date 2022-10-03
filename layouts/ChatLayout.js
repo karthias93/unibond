@@ -10,6 +10,9 @@ function ChatLayout({ children, showSidebar = true, pageName }) {
     return (
         <div className={`${styles.dashboard} ${showSidebar ? styles.sidebar : ""}`}>
             <div className={styles.left}>
+                <header>
+                    <Navbar pageName={pageName} />
+                </header>
                 <main>{children}</main>
             </div>
 
