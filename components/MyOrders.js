@@ -8,7 +8,7 @@ import { useTable } from 'react-table';
 import { toggleState as toggleLoaderState } from "reduxState/slices/loaderSlice";
 import RevenuePopup from "./RevenuePopup";
 import ModalPopup from "./ModalPopup";
-
+import { IoMdArrowDropdownCircle } from "react-icons/io";
 function MyOrders() {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.authState);
@@ -125,11 +125,14 @@ function MyOrders() {
             ...(user.isAdmin) ? {
                 Cell: (cellObj) => {
                     return (
-                        <select id="lang" onChange={(e) => handleClickEditRow(e, cellObj.row)} value={cellObj.row.values.status} className={`p-2 rounded weight-7 ${styles[cellObj.row.values.status.toLowerCase()]}`}>
-                            <option value="Pending">Pending</option>
-                            <option value="Approved">Approved</option>
-                            <option value="Completed">Completed</option>
-                        </select>
+                        <div>
+                            <select id="lang" onChange={(e) => handleClickEditRow(e, cellObj.row)} value={cellObj.row.values.status} className={`p-2 rounded weight-7 ${styles[cellObj.row.values.status.toLowerCase()]}`}>
+                                <option value="Pending">Pending</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                            <span className="dropArrow"><IoMdArrowDropdownCircle /></span>
+                        </div>
                     )
                 }
             } : {}

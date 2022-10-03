@@ -39,17 +39,34 @@
             select {
                 background: linear-gradient(180deg, #00F418 0%, #00A72F 100%);
                 color: #fff;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                padding-right: 30px;
+                width: 126px;
+
                 option {
                     color: #000;
                 }
             }
 
+            span {
+                position: relative;;
+                font-size: 18px;
+                color: rgb(255 255 255);
+                top: -26px;
+                right: -102px;
+            
+            }
+
             select.approved {
                 background: linear-gradient(180deg, #00F418 0%, #00A72F 100%);
             }
+
             select.pending {
                 background: linear-gradient(180deg, #F4BB00 0%, #FFA800 100%);
             }
+
             select.completed {
                 background: linear-gradient(180deg, #F47500 0%, #FF2E00 100%);
             }
