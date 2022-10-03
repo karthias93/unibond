@@ -123,8 +123,6 @@ function ChatModal() {
                                 <p className={reciever.status ? styles.online : styles.offline}></p>
                             </span>
                         )}
-
-
                     <div className="ml-3">
                         <h2 className="fs-24px weight-7 mb-5px lh-1]">{toCapital(reciever?.username)}</h2>
                         <div className="fs-14px text-[#363636] weight-4 lh-1 flex"><div className={`mr-2 ${reciever?.status ? styles.onlineCircle : styles.offlineCircle}`}></div> {reciever?.status ? 'Online' : 'Offline'}</div>

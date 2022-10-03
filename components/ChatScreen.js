@@ -100,8 +100,9 @@ function ChatScreen() {
                             </span>
                         )}
                     <div>
-                        <h2 className="fs-24px weight-7 black mb-5px lh-1">{toCapital(reciever?.username)}</h2>
-                        <p className="fs-15px black weight-4 lh-1">{reciever?.skill || "User"}</p>
+                        <h2 className="fs-30px weight-7 black mb-5px lh-1">{toCapital(reciever?.username)}</h2>
+                        <p className="fs-16px text-[#363636] weight-6 lh-1 mt-3">{reciever?.skill || "User"}</p>
+                        <div className="fs-14px text-[#363636] weight-4 lh-1 flex mt-3"><div className={`mr-2 ${reciever?.status ? styles.onlineCircle : styles.offlineCircle}`}></div> {reciever?.status ? 'Online' : 'Offline'}</div>
                     </div>
                 </div>
                 <div className="w-9/12">
