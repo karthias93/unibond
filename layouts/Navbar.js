@@ -32,7 +32,7 @@ function Navbar({ pageName }) {
     return (
         <div className={styles.navbar}>
             <Link href="/" passHref>
-                <IKImage path="images/Eggg.png" className={`${styles.logo}`} loading="lazy" lqip={{ active: true }} alt="" />
+                <IKImage path="images/Eggg.svg" className={`${styles.logo}`} loading="lazy" lqip={{ active: true }} alt="" />
             </Link>
 
             {isBellow1024px ? (

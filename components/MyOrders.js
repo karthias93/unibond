@@ -135,7 +135,9 @@ function MyOrders() {
                         </div>
                     )
                 }
-            } : {}
+            } : {
+                Cell: (cellObj) => <span className={`rounded p-2 weight-7 ${styles[cellObj.row.values.status.toLowerCase()]}`}>{cellObj.row.values.status}</span>
+            }
         },
     ], [user]);
 

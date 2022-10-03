@@ -82,7 +82,7 @@ function Sidebar({ pageName }) {
                     next={fetchMoreData}
                     hasMore={hasMore}
                     loader={<h4>Loading...</h4>}
-                    height='calc(40vh)'
+                    height='calc(38vh)'
                     >
                     {updatedUsers?.map(({ username, _id, email, skill, status, profilePic }) => (
                         <UserCard name={username} skill={skill} id={_id} key={_id} email={email} status={status} profilePic={profilePic} />
