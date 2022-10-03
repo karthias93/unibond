@@ -130,7 +130,7 @@
 
             h6 {
                 text-align: left;
-                margin: 5px 0 0 7px;
+                margin: 5px 0 0 20px;
             }
         }
 
@@ -146,11 +146,12 @@
 
             p {
                 background-color: rgb(255 255 255);
+                text-align: right;
             }
 
             h6 {
                 text-align: right;
-                margin: 5px 5px 0 0;
+                margin: 5px 20px 0 0;
             }
         }
     }
@@ -337,4 +338,18 @@
     border-radius: 7px;
     padding: 6px;
     float: right;
+}
+
+@mixin statusCircle {
+    width: .75rem;
+    height: .75rem;
+    border-radius: 2rem;
+}
+.onlineCircle {
+    background-color: rgb(11, 170, 11);
+    @include statusCircle;
+}
+.offlineCircle {
+    background-color: #f4bb00;
+    @include statusCircle;
 }

@@ -100,7 +100,7 @@ function UserProfile() {
         <div className="lg:container mx-auto">
             <div className="mb-6">
                 <h1 className="text-4xl font-bold mb-1 black">
-                    Hey <span className="yellow">Jamie,</span>
+                    Hey <span className="yellow">{user?.username},</span>
                 </h1>
                 <p className="text-base font-normal black">
                     Welcome back! Take a look at your profile here.

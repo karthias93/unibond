@@ -58,8 +58,8 @@ function Messages({ messages, setMessages, socket, sender }) {
                                     {messageOwner !== sender?.id ? reciever.username?.slice(0, 1).toUpperCase() : sender.username?.slice(0, 1).toUpperCase()}
                                 </span>
                             )} */}
-                        <p>{message}</p>
-                        <h6 className="fs-12px  weight-4 text-black lh-1">{formulateDate(createdAt)}</h6>
+                        <p className="weight-6">{message}</p>
+                        <h6 className="fs-10px weight-4 text-[#363636] lh-1">{formulateDate(createdAt)}</h6>
                     </div>
                 )
             })}
