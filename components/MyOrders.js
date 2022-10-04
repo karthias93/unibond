@@ -125,13 +125,13 @@ function MyOrders() {
             ...(user.isAdmin) ? {
                 Cell: (cellObj) => {
                     return (
-                        <div>
+                        <div className="">
                             <select id="lang" onChange={(e) => handleClickEditRow(e, cellObj.row)} value={cellObj.row.values.status} className={`p-2 rounded weight-7 ${styles[cellObj.row.values.status.toLowerCase()]}`}>
                                 <option value="Pending">Pending</option>
                                 <option value="Approved">Approved</option>
                                 <option value="Completed">Completed</option>
                             </select>
-                            <span className="dropArrow"><IoMdArrowDropdownCircle /></span>
+                            <span className={styles.dropArrow}><IoMdArrowDropdownCircle /></span>
                         </div>
                     )
                 }
